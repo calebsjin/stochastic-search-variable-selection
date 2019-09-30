@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>Chapter 3 Stochastic Search Variable Selection (SSVS) | Stochastic Search Variable Selection (SSVS)</title>
+  <meta name="description" content="Chapter 3 Stochastic Search Variable Selection (SSVS) | Stochastic Search Variable Selection (SSVS)" />
+  <meta name="generator" content="bookdown 0.13.2 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="Chapter 3 Stochastic Search Variable Selection (SSVS) | Stochastic Search Variable Selection (SSVS)" />
+  <meta property="og:type" content="book" />
+  
+  
+  
+  
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Chapter 3 Stochastic Search Variable Selection (SSVS) | Stochastic Search Variable Selection (SSVS)" />
+  
+  
+  
+
+<meta name="author" content="Shiqiang Jin" />
+
+
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="setup.html"/>
+<link rel="next" href="simulation-study.html"/>
+<script src="libs/jquery-2.2.3/jquery.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="./">SSVS</a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="1" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i><b>1</b> Prerequisites</a></li>
+<li class="chapter" data-level="2" data-path="setup.html"><a href="setup.html"><i class="fa fa-check"></i><b>2</b> Setup</a></li>
+<li class="chapter" data-level="3" data-path="stochastic-search-variable-selection-ssvs.html"><a href="stochastic-search-variable-selection-ssvs.html"><i class="fa fa-check"></i><b>3</b> Stochastic Search Variable Selection (SSVS)</a></li>
+<li class="chapter" data-level="4" data-path="simulation-study.html"><a href="simulation-study.html"><i class="fa fa-check"></i><b>4</b> Simulation Study</a></li>
+<li class="chapter" data-level="5" data-path="appendix.html"><a href="appendix.html"><i class="fa fa-check"></i><b>5</b> Appendix</a></li>
+<li class="chapter" data-level="" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i>References</a></li>
+<li class="divider"></li>
+<li><a href="https://www.sjin.name" target="blank">Caleb Jin|金时强</a></li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Stochastic Search Variable Selection (SSVS)</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="stochastic-search-variable-selection-ssvs" class="section level1">
+<h1><span class="header-section-number">Chapter 3</span> Stochastic Search Variable Selection (SSVS)</h1>
+<p>From <a href="setup.html#eq:1">(2.1)</a>, the likelihood function is given as
+<span class="math display">\[
+{\bf y}|{\boldsymbol \beta}, \sigma^2 \sim \mathcal{N}({\bf X}{\boldsymbol \beta}, \sigma^2I_n).
+\]</span>
+We define the prior as follows:
+<span class="math display">\[
+\beta_j|\sigma^2,\gamma_j \stackrel{ind}{\sim} (1-\gamma_j) \mathcal{N}(0, \sigma^2\nu_0) + \gamma_j\mathcal{N}(0,\sigma^2\nu_1),
+\]</span>
+where <span class="math inline">\(\nu_0\)</span> and <span class="math inline">\(\nu_1\)</span> will be chosen to be small and large, respectively. Note that the likelihood is independent of <span class="math inline">\({\boldsymbol \gamma}=(\gamma_1,\ldots,\gamma_p)\)</span>.
+Assume
+<span class="math display">\[
+\sigma^2 \sim \mathcal{IG}(\frac{a}{2}, \frac{b}{2}),
+\]</span>
+which is also independent of <span class="math inline">\({\boldsymbol \gamma}\)</span>. We consider
+<span class="math display">\[
+\gamma_j \stackrel{iid}{\sim} Ber(\omega).
+\]</span></p>
+<p>To make our model robust to the choice of <span class="math inline">\(\omega\)</span>, we will assign the following prior on <span class="math inline">\(\omega\)</span>.
+<span class="math display">\[w\sim \mathcal{B}(c_1,c_2),\]</span>
+where we will use <span class="math inline">\(c_1=c_2=1\)</span>, which leads to the uniform distribution. Recall the density function of beta distribution is proportional <span class="math inline">\(\pi(w)\propto w^{c_1-1}(1-w)^{c_2-1}\)</span>.</p>
+<p>It is easy to show that the full conditionals are as follows:</p>
+<ul>
+<li><ol style="list-style-type: decimal">
+<li><span class="math display">\[\beta_j|{\boldsymbol \beta}_{-j}, \sigma^2, {\boldsymbol \gamma}, {\bf y}\sim \mathcal{N}(\tilde{\beta}_j, \frac{\sigma^2}{\mu_j}).\]</span>
+where <span class="math inline">\(\mu_j= x_j^{{\top}}x_j + \frac{1}{\nu_{\gamma_j}}\)</span> and <span class="math inline">\(\tilde{\beta}_j = \mu_j^{-1}x_j^{{\top}}({\bf y}- {\bf X}_{-j}{\boldsymbol \beta}_{-j})\)</span>.</li>
+</ol></li>
+<li><ol start="2" style="list-style-type: decimal">
+<li><span class="math display">\[
+\gamma_j |{\boldsymbol \gamma}_{-j}, {\boldsymbol \beta}, \sigma^2, {\bf y}\sim Ber\left(\frac{ \nu_1^{-\frac{1}{2}}
+\exp\left(-\frac{1}{2\sigma^2\nu_1}\beta_j^2\right)\omega}
+{  \nu_0^{-\frac{1}{2}}\exp\left(-\frac{1}{2\sigma^2\nu_0}\beta_j^2\right)\left(1-\omega\right)+
+ \nu_1^{-\frac{1}{2}}\exp\left(-\frac{1}{2\sigma^2\nu_1}\beta_j^2\right)\omega}\right).
+\]</span></li>
+</ol></li>
+<li><ol start="3" style="list-style-type: decimal">
+<li><span class="math display">\[\sigma^2|{\boldsymbol \beta}, {\boldsymbol \gamma}, {\bf y}\sim \mathcal{IG}(a^*,b^*),\]</span>
+where <span class="math inline">\(a^*=\frac{1}{2}(n+p+a)\)</span> and <span class="math inline">\(b^* = \frac{1}{2}\left(\|{\bf y}-{\bf X}{\boldsymbol \beta}\|^2 + \sum_{j=1}^{p}\frac{\beta_j^2}{\nu_{\gamma_j}} + b\right).\)</span></li>
+</ol></li>
+<li><ol start="4" style="list-style-type: decimal">
+<li><span class="math display">\[w|{\boldsymbol \beta},{\boldsymbol \gamma},\sigma^2,{\bf y}\sim \mathcal{B}\left(\sum_{j=1}^p \gamma_j+c_1,p-\sum_{j=1}^p \gamma_j+c_2\right).\]</span></li>
+</ol></li>
+</ul>
+<p>To speed up, we consider the following conditionals:</p>
+<ul>
+<li><p>1’)
+<span class="math display">\[{\boldsymbol \beta}|\sigma^2, {\boldsymbol \gamma}, {\bf y}\sim \mathcal{N}(\tilde{{\boldsymbol \beta}}, {\sigma^2}({\bf X}^{\top}{\bf X}+{\bf V}^{-1}_{\boldsymbol \gamma})^{-1}),\]</span>
+where <span class="math inline">\({\bf V}_{\boldsymbol \gamma}={\rm diag}(v_{\gamma_j})_{j=0}^p\)</span> and <span class="math inline">\(\tilde{{\boldsymbol \beta}} = ({\bf X}^{\top}{\bf X}+{\bf V}^{-1}_{\boldsymbol \gamma})^{-1}{\bf X}^{\top}{\bf y}\)</span>.</p></li>
+<li><p>2’)
+<span class="math display">\[
+{\boldsymbol \gamma}|{\boldsymbol \beta}, \sigma^2, {\bf y}\sim \prod_{j=0}^p Ber\left(\frac{ \nu_1^{-\frac{1}{2}}
+  \exp\left(-\frac{1}{2\sigma^2\nu_1}\beta_j^2\right)\omega}
+{  \nu_0^{-\frac{1}{2}}\exp\left(-\frac{1}{2\sigma^2\nu_0}\beta_j^2\right)\left(1-\omega\right)+
+ \nu_1^{-\frac{1}{2}}\exp\left(-\frac{1}{2\sigma^2\nu_1}\beta_j^2\right)\omega}\right).
+\]</span></p></li>
+<li><p>3’)
+<span class="math display">\[\sigma^2|{\boldsymbol \beta}, {\boldsymbol \gamma}, {\bf y}\sim \mathcal{IG}(a^*,b^*).\]</span>
+where <span class="math inline">\(a^*=\frac{1}{2}(n+p+a)\)</span> and
+<span class="math inline">\(b^* = \frac{1}{2}\left(\|{\bf y}-{\bf X}{\boldsymbol \beta}\|^2 + \sum_{j=1}^{p}\frac{\beta_j^2}{\nu_{\gamma_j}} + b\right).\)</span></p></li>
+<li><p>4’)
+<span class="math display">\[w|{\boldsymbol \beta},{\boldsymbol \gamma},\sigma^2,{\bf y}\sim \mathcal{B}\left(\sum_{j=1}^p \gamma_j+c_1,p-\sum_{j=1}^p \gamma_j+c_2\right).\]</span></p></li>
+</ul>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="setup.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="simulation-study.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/lunr.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"google": false,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"all": ["facebook", "google", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": null,
+"text": null
+},
+"history": {
+"link": null,
+"text": null
+},
+"download": ["stochastic search variable selection.pdf", "stochastic search variable selection.epub"],
+"toc": {
+"collapse": "subsection"
+}
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>

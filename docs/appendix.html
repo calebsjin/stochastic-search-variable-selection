@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>Chapter 5 Appendix | Stochastic Search Variable Selection (SSVS)</title>
+  <meta name="description" content="Chapter 5 Appendix | Stochastic Search Variable Selection (SSVS)" />
+  <meta name="generator" content="bookdown 0.13.2 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="Chapter 5 Appendix | Stochastic Search Variable Selection (SSVS)" />
+  <meta property="og:type" content="book" />
+  
+  
+  
+  
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Chapter 5 Appendix | Stochastic Search Variable Selection (SSVS)" />
+  
+  
+  
+
+<meta name="author" content="Shiqiang Jin" />
+
+
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="simulation-study.html"/>
+<link rel="next" href="references.html"/>
+<script src="libs/jquery-2.2.3/jquery.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="./">SSVS</a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="1" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i><b>1</b> Prerequisites</a></li>
+<li class="chapter" data-level="2" data-path="setup.html"><a href="setup.html"><i class="fa fa-check"></i><b>2</b> Setup</a></li>
+<li class="chapter" data-level="3" data-path="stochastic-search-variable-selection-ssvs.html"><a href="stochastic-search-variable-selection-ssvs.html"><i class="fa fa-check"></i><b>3</b> Stochastic Search Variable Selection (SSVS)</a></li>
+<li class="chapter" data-level="4" data-path="simulation-study.html"><a href="simulation-study.html"><i class="fa fa-check"></i><b>4</b> Simulation Study</a></li>
+<li class="chapter" data-level="5" data-path="appendix.html"><a href="appendix.html"><i class="fa fa-check"></i><b>5</b> Appendix</a></li>
+<li class="chapter" data-level="" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i>References</a></li>
+<li class="divider"></li>
+<li><a href="https://www.sjin.name" target="blank">Caleb Jin|金时强</a></li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Stochastic Search Variable Selection (SSVS)</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="appendix" class="section level1">
+<h1><span class="header-section-number">Chapter 5</span> Appendix</h1>
+<ul>
+<li>For <span class="math inline">\(\beta_j|{\boldsymbol \beta}_{-j}, \sigma^2, {\boldsymbol \gamma}, {\bf y}\)</span> <span class="math inline">\((j = 1,2, \ldots,p)\)</span>, we have</li>
+</ul>
+<p><span class="math display">\[\begin{eqnarray*}
+\pi(\beta_j|{\boldsymbol \beta}_{-j}, \sigma^2, {\boldsymbol \gamma}, {\bf y})&amp;\propto&amp;f({\bf y}|{\boldsymbol \beta}, \sigma^2)\pi({\boldsymbol \beta}|{\boldsymbol \gamma}, \sigma^2)\\
+&amp;=&amp;f({\bf y}|{\boldsymbol \beta}_{{\boldsymbol \gamma}}, \sigma^2) \prod_{k=1}^{p}\pi(\beta_k|Z_k, \sigma^2)\\
+&amp;\propto&amp;f({\bf y}|{\boldsymbol \beta}, \sigma^2)\pi(\beta_j|\gamma_j, \sigma^2)\\
+&amp;\propto&amp; \exp\left(-\frac{1}{2\sigma^2}\|{\bf y}-{\bf X}{\boldsymbol \beta}\|^2 \right)
+\exp\left(-\frac{1}{2\sigma^2\nu_{\gamma_j}}\beta_j^2\right)\\
+&amp;=&amp; \exp\left(-\frac{1}{2\sigma^2}\|{\bf y}- {\bf X}_{-j}{\boldsymbol \beta}_{-j} - x_j \beta_j\|^2\right)
+\exp\left(-\frac{1}{2\sigma^2\nu_{\gamma_j}}\beta_j^2\right)\\
+&amp;=&amp; \exp\left(-\frac{1}{2\sigma^2}\|{\bf y}^* - x_j \beta_j\|^2\right)
+\exp\left(-\frac{1}{2\sigma^2\nu_{\gamma_j}}\beta_j^2\right)\\
+&amp;=&amp;\exp\left[-\frac{1}{2\sigma^2}\left({{\bf y}^*}^{{\top}}{\bf y}^* - 2\beta_j x_j^{{\top}}{\bf y}^*
++ \beta_j x_j^{{\top}}x_j\beta_j + \frac{1}{\nu_{\gamma_j}}\beta_j^2\right)\right]\\
+&amp;\propto&amp;\exp\left[-\frac{1}{2\sigma^2}\left(\beta_j^2(x_j^{{\top}}x_j +
+\frac{1}{\nu_{\gamma_j}}) - 2\beta_j x_j^{{\top}}{\bf y}^* \right)\right]\\
+&amp;=&amp;\exp\left[-\frac{1}{2\sigma^2}\left(\beta_j^2(x_j^{{\top}}x_j +
+\frac{1}{\nu_{\gamma_j}}) - 2\beta_j (x_j^{{\top}}x_j + \frac{1}{\nu_{\gamma_j}})(x_j^{{\top}}x_j +
+\frac{1}{\nu_{\gamma_j}})^{-1} x_j^{{\top}}{\bf y}^* \right)\right]\\
+&amp;=&amp; \exp\left[-\frac{a}{2\sigma^2}\left(\beta_j^2 - 2a \beta_j \tilde \beta_j\right)\right]\\
+&amp;\propto&amp; \exp\left[-\frac{a}{2\sigma^2}\left(\beta_j -\tilde \beta_j\right)^2\right]\\
+\end{eqnarray*}\]</span></p>
+<p>where <span class="math inline">\({\bf y}^* = {\bf y}- {\bf X}_{-j}{\boldsymbol \beta}_{-j}, \quad \mu_j= x_j^{{\top}}x_j + \frac{1}{\nu_{\gamma_j}},\quad \tilde \beta_j = \mu_j^{-1}x_j^{{\top}}{\bf y}^*\)</span>.
+Hence, <span class="math display">\[\beta_j|{\boldsymbol \beta}_{-j}, \sigma^2, {\boldsymbol \gamma}, {\bf y}\sim \mathcal{N}(\tilde \beta_j, \frac{\sigma^2}{\mu_j}).\]</span></p>
+<ul>
+<li>For <span class="math inline">\(\pi(\gamma_j|{\boldsymbol \gamma}_{-j}, {\boldsymbol \beta}, \sigma^2, {\bf y})\)</span> <span class="math inline">\((j = 1,2, \ldots,p)\)</span> we have</li>
+</ul>
+<p><span class="math display">\[\begin{eqnarray*}
+\pi(\gamma_j|{\boldsymbol \gamma}_{-j}, {\boldsymbol \beta}, \sigma^2, {\bf y})&amp;\propto&amp; \pi({\boldsymbol \gamma},{\boldsymbol \beta}|\sigma^2)\\
+&amp;=&amp;\pi({\boldsymbol \beta}|\sigma^2, {\boldsymbol \gamma})\pi({\boldsymbol \gamma})\\
+&amp;=&amp; \prod_{k=1}^{p}\pi(\beta_{k}|\sigma^2, z_{k})\prod_{i=1}^{p}\pi(z_i)\\
+&amp;\propto&amp;\pi(\beta_{j}|\sigma^2, z_{j})\pi(\gamma_j)\\
+&amp;\propto&amp;\nu_{\gamma_j}^{-\frac{1}{2}}\exp\left(-\frac{1}{2\sigma^2\nu_{\gamma_j}}\beta_j^2\right)\omega^{\gamma_j}
+(1-\omega)^{1-\gamma_j}.
+\end{eqnarray*}\]</span></p>
+<p>Note that</p>
+<p><span class="math display">\[\begin{eqnarray*}
+\pi(\gamma_j = 0|{\boldsymbol \gamma}_{-j}, {\boldsymbol \beta}, \sigma^2, {\bf y})&amp;=&amp; C \nu_0^{-\frac{1}{2}}\exp\left(-\frac{1}{2\sigma^2\nu_0}\beta_j^2\right)\left(1-\omega\right);\\
+\pi(\gamma_j = 1|{\boldsymbol \gamma}_{-j}, {\boldsymbol \beta}, \sigma^2, {\bf y})&amp;=&amp; C \nu_1^{-\frac{1}{2}}\exp\left(-\frac{1}{2\sigma^2\nu_1}\beta_j^2\right)\omega.
+\end{eqnarray*}\]</span></p>
+<p>This implies that</p>
+<p><span class="math display">\[\begin{eqnarray*}
+\pi(\gamma_j = 1|{\boldsymbol \gamma}_{-j}, {\boldsymbol \beta}, \sigma^2, {\bf y})
+&amp;=&amp;\frac{P(\gamma_j = 1,\Omega)}{\sum_{\gamma_j}P(\gamma_j,\Omega)}\\
+&amp;=&amp; \frac{C \nu_1^{-\frac{1}{2}}\exp\left(-\frac{1}{2\sigma^2\nu_1}\beta_j^2\right)\omega}
+{ C \nu_0^{-\frac{1}{2}}\exp\left(-\frac{1}{2\sigma^2\nu_0}\beta_j^2\right)\left(1-\omega\right)+
+C \nu_1^{-\frac{1}{2}}\exp\left(-\frac{1}{2\sigma^2\nu_1}\beta_j^2\right)\omega}\\
+&amp;=&amp; \frac{ \nu_1^{-\frac{1}{2}}\exp\left(-\frac{1}{2\sigma^2\nu_1}\beta_j^2\right)\omega}
+{  \nu_0^{-\frac{1}{2}}\exp\left(-\frac{1}{2\sigma^2\nu_0}\beta_j^2\right)\left(1-\omega\right)+
+ \nu_1^{-\frac{1}{2}}\exp\left(-\frac{1}{2\sigma^2\nu_1}\beta_j^2\right)\omega}.
+\end{eqnarray*}\]</span></p>
+<p>Hence,
+<span class="math display">\[
+\gamma_j |{\boldsymbol \gamma}_{-j}, {\boldsymbol \beta}, \sigma^2, {\bf y}\sim Ber\left(\frac{ \nu_1^{-\frac{1}{2}}
+    \exp\left(-\frac{1}{2\sigma^2\nu_1}\beta_j^2\right)\omega}
+{  \nu_0^{-\frac{1}{2}}\exp\left(-\frac{1}{2\sigma^2\nu_0}\beta_j^2\right)\left(1-\omega\right)+
+ \nu_1^{-\frac{1}{2}}\exp\left(-\frac{1}{2\sigma^2\nu_1}\beta_j^2\right)\omega}\right).
+\]</span></p>
+<ul>
+<li>For <span class="math inline">\(\sigma^2|{\boldsymbol \beta}, {\boldsymbol \gamma}, {\bf y}\)</span>, we have</li>
+</ul>
+<p><span class="math display">\[\begin{eqnarray*}
+\pi(\sigma^2|{\boldsymbol \beta}, {\boldsymbol \gamma}, {\bf y})&amp;\propto&amp;f({\bf y}|{\boldsymbol \beta},\sigma^2,{\boldsymbol \gamma})\pi({\boldsymbol \beta},\sigma^2|{\boldsymbol \gamma})\\
+&amp;=&amp;f({\bf y}|{\boldsymbol \beta}, \sigma^2, {\boldsymbol \gamma})\pi({\boldsymbol \beta}|\sigma^2,{\boldsymbol \gamma})\pi(\sigma^2|{\boldsymbol \gamma})\\
+&amp;=&amp;f({\bf y}|{\boldsymbol \beta}, \sigma^2)\pi({\boldsymbol \beta}|\sigma^2,{\boldsymbol \gamma})\pi(\sigma^2)\\
+&amp;\propto&amp;(\sigma^2)^{-\frac{n}{2}}\exp\left(-\frac{1}{2\sigma^2}\|{\bf y}-{\bf X}{\boldsymbol \beta}\|^2\right)\times
+\prod_{j=1}^{p}\left[(\sigma^2\nu_{\gamma_j})^{-\frac{1}{2}}\exp\left(-\frac{1}{2\sigma^2\nu_{\gamma_j}}
+\beta_j^2\right)\right]\\
+&amp;&amp;\times(\sigma^2)^{-\frac{a}{2}-1}\exp\left(-\frac{b}{2\sigma^2}\right)\\
+&amp;\propto&amp;(\sigma^2)^{-\frac{n}{2}}\exp\left(-\frac{1}{2\sigma^2}\|{\bf y}-{\bf X}{\boldsymbol \beta}\|^2\right)\times
+(\sigma^2)^{-\frac{p}{2}}\exp\left(-\frac{1}{2\sigma^2}\sum_{j=1}^{p}\frac{\beta_j^2}{\nu_{\gamma_j}}\right)\\
+&amp;&amp;\times(\sigma^2)^{-\frac{a}{2}-1}\exp\left(-\frac{b}{2\sigma^2}\right)\\
+&amp;=&amp; (\sigma^2)^{-\frac{1}{2}(n+p+a)-1}\exp\left(-\frac{\frac{1}{2}\left(\|{\bf y}-{\bf X}{\boldsymbol \beta}
+\|^2 + \sum_{j=1}^{p}\frac{\beta_j^2}{\nu_{\gamma_j}} + b\right)}{\sigma^2}\right)\\
+&amp;=&amp;(\sigma^2)^{-a^* -1}\exp(-\frac{b^*}{\sigma^2}),
+\end{eqnarray*}\]</span></p>
+<p>where <span class="math inline">\(a^*=\frac{1}{2}(n+p+a)\)</span> and <span class="math inline">\(b^* = \frac{1}{2}\left(\|{\bf y}-{\bf X}{\boldsymbol \beta}\|^2 + \sum_{j=1}^{p}\frac{\beta_j^2}{\nu_{\gamma_j}} + b\right).\)</span></p>
+<p>Therefore,
+<span class="math display">\[\sigma^2|{\boldsymbol \beta}, {\boldsymbol \gamma}, {\bf y}\sim \mathcal{IG}(a^*,b^*).\]</span></p>
+<ul>
+<li>For <span class="math inline">\(w|{\boldsymbol \beta},{\boldsymbol \gamma},\sigma^2,{\bf y}\)</span>, we have</li>
+</ul>
+<p><span class="math display">\[\begin{eqnarray*}
+\pi(w|{\boldsymbol \beta},{\boldsymbol \gamma},\sigma^2,{\bf y})&amp;\propto&amp; \pi({\boldsymbol \gamma}|w) \pi(w)\\
+&amp;\propto&amp;\left[ \prod_{j=1}^p w^{\gamma_j}(1-w)^{1-\gamma_j}\right] w^{c_1-1}(1-w)^{c_2-1}\\
+&amp;\propto&amp; w^{\sum_{j=1}^p \gamma_j+c_1-1}(1-w)^{p-\sum_{j=1}^p \gamma_j+c_2-1}.
+\end{eqnarray*}\]</span></p>
+<p>We therefore have
+<span class="math display">\[w|{\boldsymbol \beta},{\boldsymbol \gamma},\sigma^2,{\bf y}\sim \mathcal{B}\left(\sum_{j=1}^p \gamma_j+c_1,p-\sum_{j=1}^p \gamma_j+c_2\right).\]</span></p>
+
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="simulation-study.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="references.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/lunr.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"google": false,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"all": ["facebook", "google", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": null,
+"text": null
+},
+"history": {
+"link": null,
+"text": null
+},
+"download": ["stochastic search variable selection.pdf", "stochastic search variable selection.epub"],
+"toc": {
+"collapse": "subsection"
+}
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>

@@ -5,13 +5,15 @@
     "dirty" : false,
     "encoding" : "UTF-8",
     "folds" : "",
-    "hash" : "1248109858",
+    "hash" : "0",
     "id" : "1089A91E",
-    "lastKnownWriteTime" : 1569854719,
-    "last_content_update" : 1569854719,
+    "lastKnownWriteTime" : 1569855173,
+    "last_content_update" : 1569855173,
     "path" : "~/Dropbox/sjin-blog/stochastic search variable selection/_output.yml",
     "project_path" : "_output.yml",
     "properties" : {
+        "cursorPosition" : "0,0",
+        "scrollLine" : "0"
     },
     "relative_order" : 3,
     "source_on_save" : false,

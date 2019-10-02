@@ -9,7 +9,7 @@ biblio-style: apalike
 link-citations: yes
 description: ""
 ---
+# Motivation
 
-# Prerequisites
 
-I am [Caleb Jin](https://www.sjin.name/). This is my note of **Stochastic Search Variable Selection (SSVS)**[@George1997] and [@George1993]. Due to my limited statistics knowledge, if making any mistakes, I sincerely expect you guys can email to me. My email address is jinsq@ksu.edu. Appreicate!
+I am [Caleb Jin](https://www.sjin.name/). This is my note of the paper **Stochastic Search Variable Selection (SSVS)**[@George1997] and [@George1993]. 

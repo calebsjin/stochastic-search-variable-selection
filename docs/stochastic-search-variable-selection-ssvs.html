@@ -4,11 +4,11 @@
 
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <title>Chapter 3 Stochastic Search Variable Selection (SSVS) | Stochastic Search Variable Selection (SSVS)</title>
-  <meta name="description" content="Chapter 3 Stochastic Search Variable Selection (SSVS) | Stochastic Search Variable Selection (SSVS)" />
+  <title>2 Stochastic Search Variable Selection (SSVS) | Stochastic Search Variable Selection (SSVS)</title>
+  <meta name="description" content="2 Stochastic Search Variable Selection (SSVS) | Stochastic Search Variable Selection (SSVS)" />
   <meta name="generator" content="bookdown 0.13.2 and GitBook 2.6.7" />
 
-  <meta property="og:title" content="Chapter 3 Stochastic Search Variable Selection (SSVS) | Stochastic Search Variable Selection (SSVS)" />
+  <meta property="og:title" content="2 Stochastic Search Variable Selection (SSVS) | Stochastic Search Variable Selection (SSVS)" />
   <meta property="og:type" content="book" />
   
   
@@ -16,7 +16,7 @@
   
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="Chapter 3 Stochastic Search Variable Selection (SSVS) | Stochastic Search Variable Selection (SSVS)" />
+  <meta name="twitter:title" content="2 Stochastic Search Variable Selection (SSVS) | Stochastic Search Variable Selection (SSVS)" />
   
   
   
@@ -30,7 +30,7 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black" />
   
   
-<link rel="prev" href="model-setting.html"/>
+<link rel="prev" href="index.html"/>
 <link rel="next" href="rcode.html"/>
 <script src="libs/jquery-2.2.3/jquery.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
@@ -130,11 +130,10 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li><a href="./">SSVS</a></li>
 
 <li class="divider"></li>
-<li class="chapter" data-level="1" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i><b>1</b> Prerequisites</a></li>
-<li class="chapter" data-level="2" data-path="model-setting.html"><a href="model-setting.html"><i class="fa fa-check"></i><b>2</b> Model setting</a></li>
-<li class="chapter" data-level="3" data-path="stochastic-search-variable-selection-ssvs.html"><a href="stochastic-search-variable-selection-ssvs.html"><i class="fa fa-check"></i><b>3</b> Stochastic Search Variable Selection (SSVS)</a></li>
-<li class="chapter" data-level="4" data-path="rcode.html"><a href="rcode.html"><i class="fa fa-check"></i><b>4</b> Rcode</a></li>
-<li class="chapter" data-level="5" data-path="appendix.html"><a href="appendix.html"><i class="fa fa-check"></i><b>5</b> Appendix</a></li>
+<li class="chapter" data-level="1" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i><b>1</b> Motivation</a></li>
+<li class="chapter" data-level="2" data-path="stochastic-search-variable-selection-ssvs.html"><a href="stochastic-search-variable-selection-ssvs.html"><i class="fa fa-check"></i><b>2</b> Stochastic Search Variable Selection (SSVS)</a></li>
+<li class="chapter" data-level="3" data-path="rcode.html"><a href="rcode.html"><i class="fa fa-check"></i><b>3</b> Rcode</a></li>
+<li class="chapter" data-level="4" data-path="appendix.html"><a href="appendix.html"><i class="fa fa-check"></i><b>4</b> Appendix</a></li>
 <li class="chapter" data-level="" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i>References</a></li>
 <li class="divider"></li>
 <li><a href="https://www.sjin.name" target="blank">Caleb Jin|金时强</a></li>
@@ -157,8 +156,15 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 
             <section class="normal" id="section-">
 <div id="stochastic-search-variable-selection-ssvs" class="section level1">
-<h1><span class="header-section-number">Chapter 3</span> Stochastic Search Variable Selection (SSVS)</h1>
-<p>From <a href="model-setting.html#eq:1">(2.1)</a>, the likelihood function is given as
+<h1><span class="header-section-number">2</span> Stochastic Search Variable Selection (SSVS)</h1>
+<p>Consider a high dimensional linear regression model as follows:
+<span class="math display" id="eq:1">\[\begin{eqnarray}
+{\bf y}={\bf X}{\boldsymbol \beta}+ {\boldsymbol \epsilon}
+\tag{2.1}
+\end{eqnarray}\]</span>
+where <span class="math inline">\({\bf y}=(y_1,y_2,\ldots,y_{n})^{{\top}}\)</span> is the <span class="math inline">\(n\)</span>-dimensional response vector, <span class="math inline">\({\bf X}=[1,{\bf M}]=[{\bf x}_1,\ldots,{\bf x}_{p}]\)</span> is the <span class="math inline">\(n\times p\)</span> design
+matrix, and <span class="math inline">\({\boldsymbol \epsilon}\sim \mathcal{N}_{n}({\bf 0},\sigma^2{\bf I}_{n})\)</span>. Note that as <span class="math inline">\(p&gt;n\)</span>, <span class="math inline">\({\bf X}\)</span> is not full rank.</p>
+<p>From <a href="stochastic-search-variable-selection-ssvs.html#eq:1">(2.1)</a>, the likelihood function is given as
 <span class="math display">\[
 {\bf y}|{\boldsymbol \beta}, \sigma^2 \sim \mathcal{N}({\bf X}{\boldsymbol \beta}, \sigma^2I_n).
 \]</span>
@@ -178,7 +184,7 @@ which is also independent of <span class="math inline">\({\boldsymbol \gamma}\)<
 <p>To make our model robust to the choice of <span class="math inline">\(\omega\)</span>, we will assign the following prior on <span class="math inline">\(\omega\)</span>.
 <span class="math display">\[w\sim \mathcal{B}(c_1,c_2),\]</span>
 where we will use <span class="math inline">\(c_1=c_2=1\)</span>, which leads to the uniform distribution. Recall the density function of beta distribution is proportional <span class="math inline">\(\pi(w)\propto w^{c_1-1}(1-w)^{c_2-1}\)</span>.</p>
-<p>It is easy to show that the full conditionals are as follows:</p>
+<p>It is easy to show that the <strong>full conditionals</strong> are as follows:</p>
 <ul>
 <li><ol style="list-style-type: decimal">
 <li><span class="math display">\[\beta_j|{\boldsymbol \beta}_{-j}, \sigma^2, {\boldsymbol \gamma}, {\bf y}\sim \mathcal{N}(\tilde{\beta}_j, \frac{\sigma^2}{\mu_j}).\]</span>
@@ -225,7 +231,7 @@ where <span class="math inline">\(a^*=\frac{1}{2}(n+p+a)\)</span> and
           </div>
         </div>
       </div>
-<a href="model-setting.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="index.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
 <a href="rcode.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>

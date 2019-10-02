@@ -158,14 +158,13 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
             <section class="normal" id="section-">
 <div id="model-setting" class="section level1">
 <h1><span class="header-section-number">Chapter 2</span> Model setting</h1>
-<p>Let <span class="math inline">\({\bf D}=({\bf M},{\bf y})\)</span> be a dataset, where <span class="math inline">\({\bf M}\in \mathbb{R}^{n\times p}\)</span> and <span class="math inline">\({\bf y}\in \mathbb{R}^{n}\)</span> with <span class="math inline">\(n=100\)</span> and <span class="math inline">\(p=500\)</span>. We are interested in finding predictors related to the response.
-Consider a high dimensional linear regression model as follows:
+<p>Consider a high dimensional linear regression model as follows:
 <span class="math display" id="eq:1">\[\begin{eqnarray}
 {\bf y}={\bf X}{\boldsymbol \beta}+ {\boldsymbol \epsilon}
 \tag{2.1}
 \end{eqnarray}\]</span>
-where <span class="math inline">\({\bf y}=(y_1,y_2,\ldots,y_{n})^{{\top}}\)</span> is the <span class="math inline">\(n\)</span>-dimensional response vector, <span class="math inline">\({\bf X}=[1,{\bf M}]=[{\bf x}_0, {\bf x}_1,\ldots,{\bf x}_{p}]\)</span> is the <span class="math inline">\(n\times (p+1)\)</span> design
-matrix, and <span class="math inline">\({\boldsymbol \epsilon}\sim \mathcal{N}_{n}({\bf 0},\sigma^2{\bf I}_{n})\)</span>. Note that as <span class="math inline">\(p+1&gt;n\)</span>, <span class="math inline">\({\bf X}\)</span> is not full rank.</p>
+where <span class="math inline">\({\bf y}=(y_1,y_2,\ldots,y_{n})^{{\top}}\)</span> is the <span class="math inline">\(n\)</span>-dimensional response vector, <span class="math inline">\({\bf X}=[1,{\bf M}]=[{\bf x}_1,\ldots,{\bf x}_{p}]\)</span> is the <span class="math inline">\(n\times p\)</span> design
+matrix, and <span class="math inline">\({\boldsymbol \epsilon}\sim \mathcal{N}_{n}({\bf 0},\sigma^2{\bf I}_{n})\)</span>. Note that as <span class="math inline">\(p&gt;n\)</span>, <span class="math inline">\({\bf X}\)</span> is not full rank.</p>
 </div>
             </section>
 

@@ -33,18 +33,15 @@ html_document: newcommandault
 \newcommand\uV{{\bf V}}
 \newcommand\diag{{\rm diag}}
 
-# Model setting
+# Stochastic Search Variable Selection (SSVS)
 
-Let $\uD=(\uM,\uy)$ be a dataset, where $\uM\in \mathbb{R}^{n\times p}$ and $\uy\in \mathbb{R}^{n}$ with $n=100$ and $p=500$. We are interested in finding predictors related to the response.
 Consider a high dimensional linear regression model as follows:
 \begin{eqnarray}
 \uy=\uX\ubeta + \uepsilon
 (\#eq:1)
 \end{eqnarray}
-where $\uy=(y_1,y_2,\ldots,y_{n})^{\T}$ is the $n$-dimensional response vector, $\uX=[1,\uM]=[\ux_0, \ux_1,\ldots,\ux_{p}]$ is the $n\times (p+1)$ design
-matrix, and $\uepsilon \sim \mathcal{N}_{n}(\0,\sigma^2\uI_{n})$. Note that as $p+1>n$, $\uX$ is not full rank.
-
-# Stochastic Search Variable Selection (SSVS)
+where $\uy=(y_1,y_2,\ldots,y_{n})^{\T}$ is the $n$-dimensional response vector, $\uX=[1,\uM]=[\ux_1,\ldots,\ux_{p}]$ is the $n\times p$ design
+matrix, and $\uepsilon \sim \mathcal{N}_{n}(\0,\sigma^2\uI_{n})$. Note that as $p>n$, $\uX$ is not full rank.
 
 From \@ref(eq:1), the likelihood function is given as
 \[
@@ -68,7 +65,7 @@ To make our model robust to the choice of $\omega$, we will assign the following
 $$w\sim \mathcal{B}(c_1,c_2),$$
 where we will use $c_1=c_2=1$, which leads to the uniform distribution. Recall the density function of beta distribution is proportional $\pi(w)\propto w^{c_1-1}(1-w)^{c_2-1}$.
 
-It is easy to show that the full conditionals are as follows:
+It is easy to show that the **full conditionals** are as follows:
 
 - 1)
 $$\beta_j|\ubeta_{-j}, \sigma^2, \bg, \uy\sim \mathcal{N}(\tilde{\beta}_j, \frac{\sigma^2}{\mu_j}).$$

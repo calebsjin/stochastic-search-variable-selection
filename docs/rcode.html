@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>Chapter 4 Rcode | Stochastic Search Variable Selection (SSVS)</title>
+  <meta name="description" content="Chapter 4 Rcode | Stochastic Search Variable Selection (SSVS)" />
+  <meta name="generator" content="bookdown 0.13.2 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="Chapter 4 Rcode | Stochastic Search Variable Selection (SSVS)" />
+  <meta property="og:type" content="book" />
+  
+  
+  
+  
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Chapter 4 Rcode | Stochastic Search Variable Selection (SSVS)" />
+  
+  
+  
+
+<meta name="author" content="Shiqiang Jin" />
+
+
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="stochastic-search-variable-selection-ssvs.html"/>
+<link rel="next" href="appendix.html"/>
+<script src="libs/jquery-2.2.3/jquery.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+
+
+
+<style type="text/css">
+a.sourceLine { display: inline-block; line-height: 1.25; }
+a.sourceLine { pointer-events: none; color: inherit; text-decoration: inherit; }
+a.sourceLine:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode { white-space: pre; position: relative; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+code.sourceCode { white-space: pre-wrap; }
+a.sourceLine { text-indent: -1em; padding-left: 1em; }
+}
+pre.numberSource a.sourceLine
+  { position: relative; left: -4em; }
+pre.numberSource a.sourceLine::before
+  { content: attr(title);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; pointer-events: all; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {  }
+@media screen {
+a.sourceLine::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="./">SSVS</a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="1" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i><b>1</b> Prerequisites</a></li>
+<li class="chapter" data-level="2" data-path="model-setting.html"><a href="model-setting.html"><i class="fa fa-check"></i><b>2</b> Model setting</a></li>
+<li class="chapter" data-level="3" data-path="stochastic-search-variable-selection-ssvs.html"><a href="stochastic-search-variable-selection-ssvs.html"><i class="fa fa-check"></i><b>3</b> Stochastic Search Variable Selection (SSVS)</a></li>
+<li class="chapter" data-level="4" data-path="rcode.html"><a href="rcode.html"><i class="fa fa-check"></i><b>4</b> Rcode</a></li>
+<li class="chapter" data-level="5" data-path="appendix.html"><a href="appendix.html"><i class="fa fa-check"></i><b>5</b> Appendix</a></li>
+<li class="chapter" data-level="" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i>References</a></li>
+<li class="divider"></li>
+<li><a href="https://www.sjin.name" target="blank">Caleb Jin|金时强</a></li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Stochastic Search Variable Selection (SSVS)</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="rcode" class="section level1">
+<h1><span class="header-section-number">Chapter 4</span> Rcode</h1>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" title="1"><span class="kw">library</span>(invgamma)</a>
+<a class="sourceLine" id="cb1-2" title="2">p &lt;-<span class="st"> </span><span class="dv">100</span></a>
+<a class="sourceLine" id="cb1-3" title="3">n =<span class="st"> </span><span class="dv">100</span></a>
+<a class="sourceLine" id="cb1-4" title="4">power &lt;-<span class="st"> </span><span class="kw">numeric</span>()</a>
+<a class="sourceLine" id="cb1-5" title="5">e&lt;-<span class="kw">rnorm</span>(n, <span class="dt">mean =</span> <span class="dv">0</span>, <span class="dt">sd =</span> <span class="kw">sqrt</span>(<span class="dv">2</span>)) <span class="co"># error</span></a>
+<a class="sourceLine" id="cb1-6" title="6">X&lt;-<span class="kw">matrix</span>(<span class="dt">data =</span> <span class="kw">rnorm</span>(n <span class="op">*</span><span class="st"> </span>p, <span class="dv">0</span>, <span class="dv">1</span>), <span class="dt">nrow =</span> n, <span class="dt">ncol =</span> p)</a>
+<a class="sourceLine" id="cb1-7" title="7">Beta &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="dv">1</span>, <span class="dv">2</span>, <span class="kw">rep</span>(<span class="dv">0</span>,(p <span class="op">-</span><span class="st"> </span><span class="dv">3</span>)), <span class="dv">3</span>)<span class="co"># exclude intercept beta0</span></a>
+<a class="sourceLine" id="cb1-8" title="8">y &lt;-<span class="st"> </span>X <span class="op">%*%</span><span class="st"> </span>Beta <span class="op">+</span><span class="st"> </span>e <span class="co"># true model</span></a>
+<a class="sourceLine" id="cb1-9" title="9">true.gamma&lt;-<span class="kw">as.numeric</span>(Beta <span class="op">!=</span><span class="st"> </span><span class="dv">0</span>)</a>
+<a class="sourceLine" id="cb1-10" title="10"><span class="co">#setup for initial values#####</span></a>
+<a class="sourceLine" id="cb1-11" title="11">hat.beta &lt;-<span class="st"> </span><span class="kw">as.numeric</span>(<span class="kw">solve</span>(<span class="kw">t</span>(X) <span class="op">%*%</span><span class="st"> </span>(X) <span class="op">+</span><span class="st"> </span><span class="kw">diag</span>(<span class="dv">1</span>, p)) <span class="op">%*%</span><span class="st"> </span><span class="kw">t</span>(X) <span class="op">%*%</span><span class="st"> </span>y) <span class="co">#p-dim vector</span></a>
+<a class="sourceLine" id="cb1-12" title="12">hat.gamma &lt;-<span class="st"> </span><span class="kw">rep</span>(<span class="dv">1</span>, p)</a>
+<a class="sourceLine" id="cb1-13" title="13">hat.sig2 &lt;-<span class="st"> </span><span class="kw">mean</span>((y <span class="op">-</span><span class="st"> </span>X <span class="op">%*%</span><span class="st"> </span>hat.beta)<span class="op">^</span><span class="dv">2</span>)</a>
+<a class="sourceLine" id="cb1-14" title="14"><span class="co">#setup for priors ############</span></a>
+<a class="sourceLine" id="cb1-15" title="15">w &lt;-<span class="st"> </span><span class="fl">0.5</span></a>
+<a class="sourceLine" id="cb1-16" title="16">v0 &lt;-<span class="st"> </span><span class="fl">0.001</span></a>
+<a class="sourceLine" id="cb1-17" title="17">v1 &lt;-<span class="st"> </span><span class="dv">1000</span></a>
+<a class="sourceLine" id="cb1-18" title="18">v01 &lt;-<span class="st"> </span><span class="kw">c</span>(v0, v1)</a>
+<a class="sourceLine" id="cb1-19" title="19">a0 &lt;-<span class="st"> </span><span class="dv">1</span></a>
+<a class="sourceLine" id="cb1-20" title="20">b0 &lt;-<span class="st"> </span><span class="dv">1</span></a>
+<a class="sourceLine" id="cb1-21" title="21"><span class="co">###############################</span></a>
+<a class="sourceLine" id="cb1-22" title="22">MC.size &lt;-<span class="st"> </span><span class="dv">2000</span> <span class="op">+</span><span class="st"> </span><span class="dv">3000</span></a>
+<a class="sourceLine" id="cb1-23" title="23">hat.BETA &lt;-<span class="st"> </span><span class="kw">matrix</span>(<span class="dv">0</span>, MC.size, p) <span class="co"># to store beta for each iteration</span></a>
+<a class="sourceLine" id="cb1-24" title="24">hat.Gamma &lt;-<span class="st"> </span><span class="kw">matrix</span>(<span class="dv">0</span>, MC.size, p) <span class="co"># to store z for each iteration</span></a>
+<a class="sourceLine" id="cb1-25" title="25">hat.Sig2 &lt;-<span class="st"> </span><span class="kw">rep</span>(<span class="dv">0</span>, MC.size) <span class="co"># to store variance for each iteration</span></a>
+<a class="sourceLine" id="cb1-26" title="26"><span class="cf">for</span> (goh <span class="cf">in</span> <span class="dv">1</span><span class="op">:</span>MC.size) {</a>
+<a class="sourceLine" id="cb1-27" title="27">  <span class="co"># Gibbs sampling </span></a>
+<a class="sourceLine" id="cb1-28" title="28">  <span class="co"># 1) for beta_j</span></a>
+<a class="sourceLine" id="cb1-29" title="29">  <span class="cf">for</span> (j <span class="cf">in</span> <span class="dv">1</span><span class="op">:</span>p) {</a>
+<a class="sourceLine" id="cb1-30" title="30">    mu_j &lt;-<span class="st"> </span><span class="kw">t</span>(X[, j]) <span class="op">%*%</span><span class="st"> </span>X[, j] <span class="op">+</span><span class="st"> </span><span class="dv">1</span><span class="op">/</span>v01[(hat.gamma[j] <span class="op">+</span><span class="st"> </span><span class="dv">1</span>)]</a>
+<a class="sourceLine" id="cb1-31" title="31">    y.star &lt;-<span class="st"> </span>y <span class="op">-</span><span class="st"> </span>X[, <span class="op">-</span>j] <span class="op">%*%</span><span class="st"> </span>hat.beta[<span class="op">-</span>j]</a>
+<a class="sourceLine" id="cb1-32" title="32">    tilde.beta.j &lt;-<span class="st"> </span><span class="kw">as.numeric</span>((<span class="dv">1</span><span class="op">/</span>mu_j) <span class="op">*</span><span class="st"> </span><span class="kw">t</span>(X[, j]) <span class="op">%*%</span><span class="st"> </span>y.star)</a>
+<a class="sourceLine" id="cb1-33" title="33">    var.beta &lt;-<span class="st"> </span><span class="kw">as.numeric</span>(hat.sig2<span class="op">/</span>mu_j)</a>
+<a class="sourceLine" id="cb1-34" title="34">    hat.beta[j] &lt;-<span class="st"> </span><span class="kw">rnorm</span>(<span class="dv">1</span>, tilde.beta.j, <span class="kw">sqrt</span>(var.beta))  <span class="co">#sampling from beta_j|others</span></a>
+<a class="sourceLine" id="cb1-35" title="35">  }</a>
+<a class="sourceLine" id="cb1-36" title="36">  <span class="co"># 2) gamma_j</span></a>
+<a class="sourceLine" id="cb1-37" title="37">  p.j &lt;-<span class="st"> </span><span class="kw">dnorm</span>(hat.beta, <span class="dv">0</span>, <span class="kw">sqrt</span>(v1 <span class="op">*</span><span class="st"> </span>hat.sig2)) <span class="op">*</span><span class="st"> </span>w</a>
+<a class="sourceLine" id="cb1-38" title="38">  q.j &lt;-<span class="st"> </span><span class="kw">dnorm</span>(hat.beta, <span class="dv">0</span>, <span class="kw">sqrt</span>(v0 <span class="op">*</span><span class="st"> </span>hat.sig2)) <span class="op">*</span><span class="st"> </span>(<span class="dv">1</span> <span class="op">-</span><span class="st"> </span>w)</a>
+<a class="sourceLine" id="cb1-39" title="39">  prob.j &lt;-<span class="st"> </span>p.j<span class="op">/</span>(p.j <span class="op">+</span><span class="st"> </span>q.j)</a>
+<a class="sourceLine" id="cb1-40" title="40">  hat.gamma &lt;-<span class="st"> </span><span class="kw">rbinom</span>(p, <span class="dv">1</span>, prob.j)</a>
+<a class="sourceLine" id="cb1-41" title="41">  hat.Gamma[goh, ] &lt;-<span class="st"> </span>hat.gamma</a>
+<a class="sourceLine" id="cb1-42" title="42">  hat.BETA[goh, ] &lt;-<span class="st"> </span>hat.beta</a>
+<a class="sourceLine" id="cb1-43" title="43">  <span class="co"># 3) sig2</span></a>
+<a class="sourceLine" id="cb1-44" title="44">  a.star &lt;-<span class="st"> </span><span class="dv">1</span><span class="op">/</span><span class="dv">2</span> <span class="op">*</span><span class="st"> </span>(n <span class="op">+</span><span class="st"> </span>p <span class="op">+</span><span class="st"> </span>a0)</a>
+<a class="sourceLine" id="cb1-45" title="45">  v.z_j &lt;-<span class="st"> </span>hat.gamma <span class="op">*</span><span class="st"> </span>v1 <span class="op">+</span><span class="st"> </span>(<span class="dv">1</span> <span class="op">-</span><span class="st"> </span>hat.gamma) <span class="op">*</span><span class="st"> </span>v0</a>
+<a class="sourceLine" id="cb1-46" title="46">  b.star &lt;-<span class="st"> </span><span class="dv">1</span><span class="op">/</span><span class="dv">2</span> <span class="op">*</span><span class="st"> </span>(<span class="kw">sum</span>((y <span class="op">-</span><span class="st"> </span>X <span class="op">%*%</span><span class="st"> </span>hat.beta)<span class="op">^</span><span class="dv">2</span>) <span class="op">+</span><span class="st"> </span><span class="kw">sum</span>(hat.beta<span class="op">^</span><span class="dv">2</span><span class="op">/</span>v.z_j) <span class="op">+</span><span class="st"> </span>b0)</a>
+<a class="sourceLine" id="cb1-47" title="47">  hat.sig2 &lt;-<span class="st"> </span><span class="kw">rinvgamma</span>(<span class="dv">1</span>, <span class="dt">shape =</span> a.star, <span class="dt">rate =</span> b.star)</a>
+<a class="sourceLine" id="cb1-48" title="48">  <span class="kw">par</span>(<span class="dt">mfrow=</span><span class="kw">c</span>(<span class="dv">1</span>,<span class="dv">1</span>))</a>
+<a class="sourceLine" id="cb1-49" title="49">  <span class="kw">plot</span>(hat.gamma, <span class="dt">main =</span> <span class="kw">paste</span>(<span class="st">&quot;rep:&quot;</span>, goh))</a>
+<a class="sourceLine" id="cb1-50" title="50">  <span class="kw">points</span>(true.gamma, <span class="dt">col =</span> <span class="dv">2</span>, <span class="dt">pch =</span> <span class="st">&quot;*&quot;</span>)</a>
+<a class="sourceLine" id="cb1-51" title="51">}</a>
+<a class="sourceLine" id="cb1-52" title="52"><span class="kw">colMeans</span>(hat.Gamma)<span class="op">&gt;</span><span class="fl">0.5</span></a></code></pre></div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="stochastic-search-variable-selection-ssvs.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="appendix.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/lunr.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"google": false,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"all": ["facebook", "google", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": null,
+"text": null
+},
+"history": {
+"link": null,
+"text": null
+},
+"download": ["stochastic search variable selection.pdf", "stochastic search variable selection.epub"],
+"toc": {
+"collapse": "subsection"
+}
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>

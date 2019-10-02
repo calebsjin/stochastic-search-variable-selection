@@ -1,21 +1,274 @@
-# Introduction {#intro}
+---
+header-includes:
+- \usepackage{amssymb}
+- \usepackage{color}
+- \documentclass{article}
+- \usepackage{amsmath}
+- \usepackage{setspace}
+- \usepackage{xcolor}
+- \usepackage{graphicx}
+output:
+pdf_document: newcommandault
+html_document: newcommandault
+---
+\newcommand\T{{\top}}
+\newcommand\ubeta{{\boldsymbol \beta}}
+\newcommand\uSigma{{\boldsymbol \Sigma}}
+\newcommand\uepsilon{{\boldsymbol \epsilon}}
+\newcommand\umu{{\boldsymbol \mu}}
+\newcommand\utheta{{\boldsymbol \theta}}
+\newcommand\bg{{\boldsymbol \gamma}}
+\newcommand\0{{\bf 0}}
+\newcommand\uX{{\bf X}}
+\newcommand\uD{{\bf D}}
+\newcommand\ux{{\bf x}}
+\newcommand\uY{{\bf Y}}
+\newcommand\uy{{\bf y}}
+\newcommand\uz{{\bf z}}
+\newcommand\uI{{\bf I}}
+\newcommand\uA{{\bf A}}
+\newcommand\uB{{\bf B}}
+\newcommand\uH{{\bf H}}
+\newcommand\uM{{\bf M}}
+\newcommand\uV{{\bf V}}
+\newcommand\diag{{\rm diag}}
 
-You can label chapter and section titles using `{#label}` after them, e.g., we can reference Chapter \@ref(intro). If you do not manually label them, there will be automatic labels anyway, e.g., Chapter \@ref(methods).
+# Model setting
 
-Figures and tables with captions will be placed in `figure` and `table` environments, respectively.
+Let $\uD=(\uM,\uy)$ be a dataset, where $\uM\in \mathbb{R}^{n\times p}$ and $\uy\in \mathbb{R}^{n}$ with $n=100$ and $p=500$. We are interested in finding predictors related to the response.
+Consider a high dimensional linear regression model as follows:
+\begin{eqnarray}
+\uy=\uX\ubeta + \uepsilon
+(\#eq:1)
+\end{eqnarray}
+where $\uy=(y_1,y_2,\ldots,y_{n})^{\T}$ is the $n$-dimensional response vector, $\uX=[1,\uM]=[\ux_0, \ux_1,\ldots,\ux_{p}]$ is the $n\times (p+1)$ design
+matrix, and $\uepsilon \sim \mathcal{N}_{n}(\0,\sigma^2\uI_{n})$. Note that as $p+1>n$, $\uX$ is not full rank.
 
-```{r nice-fig, fig.cap='Here is a nice figure!', out.width='80%', fig.asp=.75, fig.align='center'}
-par(mar = c(4, 4, .1, .1))
-plot(pressure, type = 'b', pch = 19)
+# Stochastic Search Variable Selection (SSVS)
+
+From \@ref(eq:1), the likelihood function is given as
+\[
+\uy|\ubeta, \sigma^2 \sim \mathcal{N}(\uX\ubeta, \sigma^2I_n).
+\]
+We define the prior as follows:
+\[
+\beta_j|\sigma^2,\gamma_j \stackrel{ind}{\sim} (1-\gamma_j) \mathcal{N}(0, \sigma^2\nu_0) + \gamma_j\mathcal{N}(0,\sigma^2\nu_1),
+\]
+where $\nu_0$ and $\nu_1$ will be chosen to be small and large, respectively. Note that the likelihood is independent of $\bg=(\gamma_1,\ldots,\gamma_p)$.
+Assume
+\[
+\sigma^2 \sim \mathcal{IG}(\frac{a}{2}, \frac{b}{2}),
+\]
+which is also independent of $\bg$. We consider
+\[
+\gamma_j \stackrel{iid}{\sim} Ber(\omega).
+\]
+
+To make our model robust to the choice of $\omega$, we will assign the following prior on $\omega$.
+$$w\sim \mathcal{B}(c_1,c_2),$$
+where we will use $c_1=c_2=1$, which leads to the uniform distribution. Recall the density function of beta distribution is proportional $\pi(w)\propto w^{c_1-1}(1-w)^{c_2-1}$.
+
+It is easy to show that the full conditionals are as follows:
+
+- 1)
+$$\beta_j|\ubeta_{-j}, \sigma^2, \bg, \uy\sim \mathcal{N}(\tilde{\beta}_j, \frac{\sigma^2}{\mu_j}).$$
+where $\mu_j= x_j^{\T}x_j + \frac{1}{\nu_{\gamma_j}}$ and $\tilde{\beta}_j = \mu_j^{-1}x_j^{\T}(\uy - \uX_{-j}\ubeta_{-j})$.
+
+- 2)
+\[
+\gamma_j |\bg_{-j}, \ubeta, \sigma^2, \uy\sim Ber\left(\frac{ \nu_1^{-\frac{1}{2}}
+	\exp\left(-\frac{1}{2\sigma^2\nu_1}\beta_j^2\right)\omega}
+{  \nu_0^{-\frac{1}{2}}\exp\left(-\frac{1}{2\sigma^2\nu_0}\beta_j^2\right)\left(1-\omega\right)+
+ \nu_1^{-\frac{1}{2}}\exp\left(-\frac{1}{2\sigma^2\nu_1}\beta_j^2\right)\omega}\right).
+\]
+
+- 3)
+$$\sigma^2|\ubeta, \bg, \uy\sim \mathcal{IG}(a^*,b^*),$$
+where $a^*=\frac{1}{2}(n+p+a)$ and $b^* = \frac{1}{2}\left(\|\uy-\uX\ubeta
+\|^2 + \sum_{j=1}^{p}\frac{\beta_j^2}{\nu_{\gamma_j}} + b\right).$
+
+- 4)
+$$w|\ubeta,\bg,\sigma^2,\uy\sim \mathcal{B}\left(\sum_{j=1}^p \gamma_j+c_1,p-\sum_{j=1}^p \gamma_j+c_2\right).$$
+
+To speed up, we consider the following conditionals:
+
+- 1')
+$$\ubeta|\sigma^2, \bg, \uy\sim \mathcal{N}(\tilde{\ubeta}, {\sigma^2}(\uX^\T\uX+\uV^{-1}_\bg)^{-1}),$$
+where $\uV_\bg=\diag(v_{\gamma_j})_{j=0}^p$ and $\tilde{\ubeta} = (\uX^\T\uX+\uV^{-1}_\bg)^{-1}\uX^\T\uy$.
+
+- 2')
+\[
+\bg |\ubeta, \sigma^2, \uy\sim \prod_{j=0}^p Ber\left(\frac{ \nu_1^{-\frac{1}{2}}
+	\exp\left(-\frac{1}{2\sigma^2\nu_1}\beta_j^2\right)\omega}
+{  \nu_0^{-\frac{1}{2}}\exp\left(-\frac{1}{2\sigma^2\nu_0}\beta_j^2\right)\left(1-\omega\right)+
+ \nu_1^{-\frac{1}{2}}\exp\left(-\frac{1}{2\sigma^2\nu_1}\beta_j^2\right)\omega}\right).
+\]
+
+- 3')
+$$\sigma^2|\ubeta, \bg, \uy\sim \mathcal{IG}(a^*,b^*).$$
+where $a^*=\frac{1}{2}(n+p+a)$ and
+$b^* = \frac{1}{2}\left(\|\uy-\uX\ubeta\|^2 + \sum_{j=1}^{p}\frac{\beta_j^2}{\nu_{\gamma_j}} + b\right).$
+
+- 4')
+$$w|\ubeta,\bg,\sigma^2,\uy\sim \mathcal{B}\left(\sum_{j=1}^p \gamma_j+c_1,p-\sum_{j=1}^p \gamma_j+c_2\right).$$
+
+# Rcode
+
+```{r, eval = F}
+library(invgamma)
+p <- 100
+n = 100
+power <- numeric()
+e<-rnorm(n, mean = 0, sd = sqrt(2)) # error
+X<-matrix(data = rnorm(n * p, 0, 1), nrow = n, ncol = p)
+Beta <- c(1, 2, rep(0,(p - 3)), 3)# exclude intercept beta0
+y <- X %*% Beta + e # true model
+true.gamma<-as.numeric(Beta != 0)
+#setup for initial values#####
+hat.beta <- as.numeric(solve(t(X) %*% (X) + diag(1, p)) %*% t(X) %*% y) #p-dim vector
+hat.gamma <- rep(1, p)
+hat.sig2 <- mean((y - X %*% hat.beta)^2)
+#setup for priors ############
+w <- 0.5
+v0 <- 0.001
+v1 <- 1000
+v01 <- c(v0, v1)
+a0 <- 1
+b0 <- 1
+###############################
+MC.size <- 2000 + 3000
+hat.BETA <- matrix(0, MC.size, p) # to store beta for each iteration
+hat.Gamma <- matrix(0, MC.size, p) # to store z for each iteration
+hat.Sig2 <- rep(0, MC.size) # to store variance for each iteration
+for (goh in 1:MC.size) {
+  # Gibbs sampling 
+  # 1) for beta_j
+  for (j in 1:p) {
+    mu_j <- t(X[, j]) %*% X[, j] + 1/v01[(hat.gamma[j] + 1)]
+    y.star <- y - X[, -j] %*% hat.beta[-j]
+    tilde.beta.j <- as.numeric((1/mu_j) * t(X[, j]) %*% y.star)
+    var.beta <- as.numeric(hat.sig2/mu_j)
+    hat.beta[j] <- rnorm(1, tilde.beta.j, sqrt(var.beta))  #sampling from beta_j|others
+  }
+  # 2) gamma_j
+  p.j <- dnorm(hat.beta, 0, sqrt(v1 * hat.sig2)) * w
+  q.j <- dnorm(hat.beta, 0, sqrt(v0 * hat.sig2)) * (1 - w)
+  prob.j <- p.j/(p.j + q.j)
+  hat.gamma <- rbinom(p, 1, prob.j)
+  hat.Gamma[goh, ] <- hat.gamma
+  hat.BETA[goh, ] <- hat.beta
+  # 3) sig2
+  a.star <- 1/2 * (n + p + a0)
+  v.z_j <- hat.gamma * v1 + (1 - hat.gamma) * v0
+  b.star <- 1/2 * (sum((y - X %*% hat.beta)^2) + sum(hat.beta^2/v.z_j) + b0)
+  hat.sig2 <- rinvgamma(1, shape = a.star, rate = b.star)
+  par(mfrow=c(1,1))
+  plot(hat.gamma, main = paste("rep:", goh))
+  points(true.gamma, col = 2, pch = "*")
+}
+colMeans(hat.Gamma)>0.5
 ```
 
-Reference a figure by its code chunk label with the `fig:` prefix, e.g., see Figure \@ref(fig:nice-fig). Similarly, you can reference tables generated from `knitr::kable()`, e.g., see Table \@ref(tab:nice-tab).
 
-```{r nice-tab, tidy=FALSE}
-knitr::kable(
-  head(iris, 20), caption = 'Here is a nice table!',
-  booktabs = TRUE
-)
-```
+# Appendix
 
-You can write citations, too. For example, we are using the **bookdown** package [@R-bookdown] in this sample book, which was built on top of R Markdown and **knitr** [@xie2015].
+- For $\beta_j|\ubeta_{-j}, \sigma^2, \bg, \uy$ $(j = 1,2, \ldots,p)$, we have
+
+\begin{eqnarray*}
+\pi(\beta_j|\ubeta_{-j}, \sigma^2, \bg, \uy)&\propto&f(\uy|\ubeta, \sigma^2)\pi(\ubeta|\bg, \sigma^2)\\
+&=&f(\uy|\ubeta_{\bg}, \sigma^2) \prod_{k=1}^{p}\pi(\beta_k|Z_k, \sigma^2)\\
+&\propto&f(\uy|\ubeta, \sigma^2)\pi(\beta_j|\gamma_j, \sigma^2)\\
+&\propto& \exp\left(-\frac{1}{2\sigma^2}\|\uy-\uX\ubeta\|^2 \right)
+\exp\left(-\frac{1}{2\sigma^2\nu_{\gamma_j}}\beta_j^2\right)\\
+&=& \exp\left(-\frac{1}{2\sigma^2}\|\uy - \uX_{-j}\ubeta_{-j} - x_j \beta_j\|^2\right)
+\exp\left(-\frac{1}{2\sigma^2\nu_{\gamma_j}}\beta_j^2\right)\\
+&=& \exp\left(-\frac{1}{2\sigma^2}\|\uy^* - x_j \beta_j\|^2\right)
+\exp\left(-\frac{1}{2\sigma^2\nu_{\gamma_j}}\beta_j^2\right)\\
+&=&\exp\left[-\frac{1}{2\sigma^2}\left({\uy^*}^{\T}\uy^* - 2\beta_j x_j^{\T}\uy^*
++ \beta_j x_j^{\T}x_j\beta_j + \frac{1}{\nu_{\gamma_j}}\beta_j^2\right)\right]\\
+&\propto&\exp\left[-\frac{1}{2\sigma^2}\left(\beta_j^2(x_j^{\T}x_j +
+\frac{1}{\nu_{\gamma_j}}) - 2\beta_j x_j^{\T}\uy^* \right)\right]\\
+&=&\exp\left[-\frac{1}{2\sigma^2}\left(\beta_j^2(x_j^{\T}x_j +
+\frac{1}{\nu_{\gamma_j}}) - 2\beta_j (x_j^{\T}x_j + \frac{1}{\nu_{\gamma_j}})(x_j^{\T}x_j +
+\frac{1}{\nu_{\gamma_j}})^{-1} x_j^{\T}\uy^* \right)\right]\\
+&=& \exp\left[-\frac{a}{2\sigma^2}\left(\beta_j^2 - 2a \beta_j \tilde \beta_j\right)\right]\\
+&\propto& \exp\left[-\frac{a}{2\sigma^2}\left(\beta_j -\tilde \beta_j\right)^2\right]\\
+\end{eqnarray*}
+
+where $\uy^* = \uy - \uX_{-j}\ubeta_{-j}, \quad \mu_j= x_j^{\T}x_j + \frac{1}{\nu_{\gamma_j}},\quad
+\tilde \beta_j = \mu_j^{-1}x_j^{\T}\uy^*$.
+Hence, $$\beta_j|\ubeta_{-j}, \sigma^2, \bg, \uy\sim \mathcal{N}(\tilde \beta_j, \frac{\sigma^2}{\mu_j}).$$
+
+- For $\pi(\gamma_j|\bg_{-j}, \ubeta, \sigma^2,  \uy)$ $(j = 1,2, \ldots,p)$ we have
+
+\begin{eqnarray*}
+\pi(\gamma_j|\bg_{-j}, \ubeta, \sigma^2, \uy)&\propto& \pi(\bg,\ubeta|\sigma^2)\\
+&=&\pi(\ubeta|\sigma^2, \bg)\pi(\bg)\\
+&=& \prod_{k=1}^{p}\pi(\beta_{k}|\sigma^2, z_{k})\prod_{i=1}^{p}\pi(z_i)\\
+&\propto&\pi(\beta_{j}|\sigma^2, z_{j})\pi(\gamma_j)\\
+&\propto&\nu_{\gamma_j}^{-\frac{1}{2}}\exp\left(-\frac{1}{2\sigma^2\nu_{\gamma_j}}\beta_j^2\right)\omega^{\gamma_j}
+(1-\omega)^{1-\gamma_j}.
+\end{eqnarray*}
+
+Note that
+
+\begin{eqnarray*}
+\pi(\gamma_j = 0|\bg_{-j}, \ubeta, \sigma^2, \uy)&=& C \nu_0^{-\frac{1}{2}}\exp\left(-\frac{1}{2\sigma^2\nu_0}\beta_j^2\right)\left(1-\omega\right);\\
+\pi(\gamma_j = 1|\bg_{-j}, \ubeta, \sigma^2, \uy)&=& C \nu_1^{-\frac{1}{2}}\exp\left(-\frac{1}{2\sigma^2\nu_1}\beta_j^2\right)\omega.
+\end{eqnarray*}
+
+This implies that
+
+\begin{eqnarray*}
+\pi(\gamma_j = 1|\bg_{-j}, \ubeta, \sigma^2, \uy)
+&=&\frac{P(\gamma_j = 1,\Omega)}{\sum_{\gamma_j}P(\gamma_j,\Omega)}\\
+&=& \frac{C \nu_1^{-\frac{1}{2}}\exp\left(-\frac{1}{2\sigma^2\nu_1}\beta_j^2\right)\omega}
+{ C \nu_0^{-\frac{1}{2}}\exp\left(-\frac{1}{2\sigma^2\nu_0}\beta_j^2\right)\left(1-\omega\right)+
+C \nu_1^{-\frac{1}{2}}\exp\left(-\frac{1}{2\sigma^2\nu_1}\beta_j^2\right)\omega}\\
+&=& \frac{ \nu_1^{-\frac{1}{2}}\exp\left(-\frac{1}{2\sigma^2\nu_1}\beta_j^2\right)\omega}
+{  \nu_0^{-\frac{1}{2}}\exp\left(-\frac{1}{2\sigma^2\nu_0}\beta_j^2\right)\left(1-\omega\right)+
+ \nu_1^{-\frac{1}{2}}\exp\left(-\frac{1}{2\sigma^2\nu_1}\beta_j^2\right)\omega}.
+\end{eqnarray*}
+
+Hence,
+\[
+\gamma_j |\bg_{-j}, \ubeta, \sigma^2, \uy\sim Ber\left(\frac{ \nu_1^{-\frac{1}{2}}
+	\exp\left(-\frac{1}{2\sigma^2\nu_1}\beta_j^2\right)\omega}
+{  \nu_0^{-\frac{1}{2}}\exp\left(-\frac{1}{2\sigma^2\nu_0}\beta_j^2\right)\left(1-\omega\right)+
+ \nu_1^{-\frac{1}{2}}\exp\left(-\frac{1}{2\sigma^2\nu_1}\beta_j^2\right)\omega}\right).
+\]
+
+- For $\sigma^2|\ubeta, \bg, \uy$, we have
+
+\begin{eqnarray*}
+\pi(\sigma^2|\ubeta, \bg, \uy)&\propto&f(\uy|\ubeta,\sigma^2,\bg)\pi(\ubeta,\sigma^2|\bg)\\
+&=&f(\uy|\ubeta, \sigma^2, \bg)\pi(\ubeta|\sigma^2,\bg)\pi(\sigma^2|\bg)\\
+&=&f(\uy|\ubeta, \sigma^2)\pi(\ubeta|\sigma^2,\bg)\pi(\sigma^2)\\
+&\propto&(\sigma^2)^{-\frac{n}{2}}\exp\left(-\frac{1}{2\sigma^2}\|\uy-\uX\ubeta\|^2\right)\times
+\prod_{j=1}^{p}\left[(\sigma^2\nu_{\gamma_j})^{-\frac{1}{2}}\exp\left(-\frac{1}{2\sigma^2\nu_{\gamma_j}}
+\beta_j^2\right)\right]\\
+&&\times(\sigma^2)^{-\frac{a}{2}-1}\exp\left(-\frac{b}{2\sigma^2}\right)\\
+&\propto&(\sigma^2)^{-\frac{n}{2}}\exp\left(-\frac{1}{2\sigma^2}\|\uy-\uX\ubeta\|^2\right)\times
+(\sigma^2)^{-\frac{p}{2}}\exp\left(-\frac{1}{2\sigma^2}\sum_{j=1}^{p}\frac{\beta_j^2}{\nu_{\gamma_j}}\right)\\
+&&\times(\sigma^2)^{-\frac{a}{2}-1}\exp\left(-\frac{b}{2\sigma^2}\right)\\
+&=& (\sigma^2)^{-\frac{1}{2}(n+p+a)-1}\exp\left(-\frac{\frac{1}{2}\left(\|\uy-\uX\ubeta
+\|^2 + \sum_{j=1}^{p}\frac{\beta_j^2}{\nu_{\gamma_j}} + b\right)}{\sigma^2}\right)\\
+&=&(\sigma^2)^{-a^* -1}\exp(-\frac{b^*}{\sigma^2}),
+\end{eqnarray*}
+
+where $a^*=\frac{1}{2}(n+p+a)$ and $b^* = \frac{1}{2}\left(\|\uy-\uX\ubeta
+\|^2 + \sum_{j=1}^{p}\frac{\beta_j^2}{\nu_{\gamma_j}} + b\right).$
+
+Therefore,
+$$\sigma^2|\ubeta, \bg, \uy\sim \mathcal{IG}(a^*,b^*).$$
+
+- For $w|\ubeta,\bg,\sigma^2,\uy$, we have
+
+\begin{eqnarray*}
+\pi(w|\ubeta,\bg,\sigma^2,\uy)&\propto& \pi(\bg|w) \pi(w)\\
+&\propto&\left[ \prod_{j=1}^p w^{\gamma_j}(1-w)^{1-\gamma_j}\right] w^{c_1-1}(1-w)^{c_2-1}\\
+&\propto& w^{\sum_{j=1}^p \gamma_j+c_1-1}(1-w)^{p-\sum_{j=1}^p \gamma_j+c_2-1}.
+\end{eqnarray*}
+
+We therefore have
+$$w|\ubeta,\bg,\sigma^2,\uy\sim \mathcal{B}\left(\sum_{j=1}^p \gamma_j+c_1,p-\sum_{j=1}^p \gamma_j+c_2\right).$$

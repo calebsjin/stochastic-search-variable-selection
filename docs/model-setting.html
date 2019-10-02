@@ -4,35 +4,34 @@
 
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <title>Chapter 4 Methods | A Minimal Book Example</title>
-  <meta name="description" content="This is a minimal example of using the bookdown package to write a book. The output format for this example is bookdown::gitbook." />
+  <title>Chapter 2 Model setting | Stochastic Search Variable Selection (SSVS)</title>
+  <meta name="description" content="Chapter 2 Model setting | Stochastic Search Variable Selection (SSVS)" />
   <meta name="generator" content="bookdown 0.13.2 and GitBook 2.6.7" />
 
-  <meta property="og:title" content="Chapter 4 Methods | A Minimal Book Example" />
+  <meta property="og:title" content="Chapter 2 Model setting | Stochastic Search Variable Selection (SSVS)" />
   <meta property="og:type" content="book" />
   
   
-  <meta property="og:description" content="This is a minimal example of using the bookdown package to write a book. The output format for this example is bookdown::gitbook." />
+  
   
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="Chapter 4 Methods | A Minimal Book Example" />
+  <meta name="twitter:title" content="Chapter 2 Model setting | Stochastic Search Variable Selection (SSVS)" />
   
-  <meta name="twitter:description" content="This is a minimal example of using the bookdown package to write a book. The output format for this example is bookdown::gitbook." />
+  
   
 
-<meta name="author" content="Yihui Xie" />
+<meta name="author" content="Shiqiang Jin" />
 
 
-<meta name="date" content="2019-09-30" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
   <meta name="apple-mobile-web-app-status-bar-style" content="black" />
   
   
-<link rel="prev" href="literature.html"/>
-<link rel="next" href="applications.html"/>
+<link rel="prev" href="index.html"/>
+<link rel="next" href="stochastic-search-variable-selection-ssvs.html"/>
 <script src="libs/jquery-2.2.3/jquery.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
@@ -128,21 +127,17 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
       <nav role="navigation">
 
 <ul class="summary">
-<li><a href="./">A Minimal Book Example</a></li>
+<li><a href="./">SSVS</a></li>
 
 <li class="divider"></li>
 <li class="chapter" data-level="1" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i><b>1</b> Prerequisites</a></li>
-<li class="chapter" data-level="2" data-path="intro.html"><a href="intro.html"><i class="fa fa-check"></i><b>2</b> Introduction</a></li>
-<li class="chapter" data-level="3" data-path="literature.html"><a href="literature.html"><i class="fa fa-check"></i><b>3</b> Literature</a></li>
-<li class="chapter" data-level="4" data-path="methods.html"><a href="methods.html"><i class="fa fa-check"></i><b>4</b> Methods</a></li>
-<li class="chapter" data-level="5" data-path="applications.html"><a href="applications.html"><i class="fa fa-check"></i><b>5</b> Applications</a><ul>
-<li class="chapter" data-level="5.1" data-path="applications.html"><a href="applications.html#example-one"><i class="fa fa-check"></i><b>5.1</b> Example one</a></li>
-<li class="chapter" data-level="5.2" data-path="applications.html"><a href="applications.html#example-two"><i class="fa fa-check"></i><b>5.2</b> Example two</a></li>
-</ul></li>
-<li class="chapter" data-level="6" data-path="final-words.html"><a href="final-words.html"><i class="fa fa-check"></i><b>6</b> Final Words</a></li>
+<li class="chapter" data-level="2" data-path="model-setting.html"><a href="model-setting.html"><i class="fa fa-check"></i><b>2</b> Model setting</a></li>
+<li class="chapter" data-level="3" data-path="stochastic-search-variable-selection-ssvs.html"><a href="stochastic-search-variable-selection-ssvs.html"><i class="fa fa-check"></i><b>3</b> Stochastic Search Variable Selection (SSVS)</a></li>
+<li class="chapter" data-level="4" data-path="rcode.html"><a href="rcode.html"><i class="fa fa-check"></i><b>4</b> Rcode</a></li>
+<li class="chapter" data-level="5" data-path="appendix.html"><a href="appendix.html"><i class="fa fa-check"></i><b>5</b> Appendix</a></li>
 <li class="chapter" data-level="" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i>References</a></li>
 <li class="divider"></li>
-<li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
+<li><a href="https://www.sjin.name" target="blank">Caleb Jin|金时强</a></li>
 
 </ul>
 
@@ -153,7 +148,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
       <div class="body-inner">
         <div class="book-header" role="navigation">
           <h1>
-            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">A Minimal Book Example</a>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Stochastic Search Variable Selection (SSVS)</a>
           </h1>
         </div>
 
@@ -161,18 +156,24 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="methods" class="section level1">
-<h1><span class="header-section-number">Chapter 4</span> Methods</h1>
-<p>We describe our methods in this chapter.</p>
-
+<div id="model-setting" class="section level1">
+<h1><span class="header-section-number">Chapter 2</span> Model setting</h1>
+<p>Let <span class="math inline">\({\bf D}=({\bf M},{\bf y})\)</span> be a dataset, where <span class="math inline">\({\bf M}\in \mathbb{R}^{n\times p}\)</span> and <span class="math inline">\({\bf y}\in \mathbb{R}^{n}\)</span> with <span class="math inline">\(n=100\)</span> and <span class="math inline">\(p=500\)</span>. We are interested in finding predictors related to the response.
+Consider a high dimensional linear regression model as follows:
+<span class="math display" id="eq:1">\[\begin{eqnarray}
+{\bf y}={\bf X}{\boldsymbol \beta}+ {\boldsymbol \epsilon}
+\tag{2.1}
+\end{eqnarray}\]</span>
+where <span class="math inline">\({\bf y}=(y_1,y_2,\ldots,y_{n})^{{\top}}\)</span> is the <span class="math inline">\(n\)</span>-dimensional response vector, <span class="math inline">\({\bf X}=[1,{\bf M}]=[{\bf x}_0, {\bf x}_1,\ldots,{\bf x}_{p}]\)</span> is the <span class="math inline">\(n\times (p+1)\)</span> design
+matrix, and <span class="math inline">\({\boldsymbol \epsilon}\sim \mathcal{N}_{n}({\bf 0},\sigma^2{\bf I}_{n})\)</span>. Note that as <span class="math inline">\(p+1&gt;n\)</span>, <span class="math inline">\({\bf X}\)</span> is not full rank.</p>
 </div>
             </section>
 
           </div>
         </div>
       </div>
-<a href="literature.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
-<a href="applications.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+<a href="index.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="stochastic-search-variable-selection-ssvs.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>

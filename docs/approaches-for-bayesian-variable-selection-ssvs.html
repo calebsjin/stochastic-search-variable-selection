@@ -4,11 +4,11 @@
 
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <title>3 Rcode | Stochastic Search Variable Selection (SSVS)</title>
-  <meta name="description" content="3 Rcode | Stochastic Search Variable Selection (SSVS)" />
+  <title>2 Approaches for Bayesian Variable Selection (SSVS) | Approaches for Bayesian Variable Selection (SSVS)</title>
+  <meta name="description" content="2 Approaches for Bayesian Variable Selection (SSVS) | Approaches for Bayesian Variable Selection (SSVS)" />
   <meta name="generator" content="bookdown 0.13.2 and GitBook 2.6.7" />
 
-  <meta property="og:title" content="3 Rcode | Stochastic Search Variable Selection (SSVS)" />
+  <meta property="og:title" content="2 Approaches for Bayesian Variable Selection (SSVS) | Approaches for Bayesian Variable Selection (SSVS)" />
   <meta property="og:type" content="book" />
   
   
@@ -16,7 +16,7 @@
   
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="3 Rcode | Stochastic Search Variable Selection (SSVS)" />
+  <meta name="twitter:title" content="2 Approaches for Bayesian Variable Selection (SSVS) | Approaches for Bayesian Variable Selection (SSVS)" />
   
   
   
@@ -30,8 +30,8 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black" />
   
   
-<link rel="prev" href="stochastic-search-variable-selection-ssvs.html"/>
-<link rel="next" href="appendix.html"/>
+<link rel="prev" href="index.html"/>
+<link rel="next" href="references.html"/>
 <script src="libs/jquery-2.2.3/jquery.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
@@ -131,9 +131,10 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 
 <li class="divider"></li>
 <li class="chapter" data-level="1" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i><b>1</b> Foreword</a></li>
-<li class="chapter" data-level="2" data-path="stochastic-search-variable-selection-ssvs.html"><a href="stochastic-search-variable-selection-ssvs.html"><i class="fa fa-check"></i><b>2</b> Stochastic Search Variable Selection (SSVS)</a></li>
-<li class="chapter" data-level="3" data-path="rcode.html"><a href="rcode.html"><i class="fa fa-check"></i><b>3</b> Rcode</a></li>
-<li class="chapter" data-level="4" data-path="appendix.html"><a href="appendix.html"><i class="fa fa-check"></i><b>4</b> Appendix</a></li>
+<li class="chapter" data-level="2" data-path="approaches-for-bayesian-variable-selection-ssvs.html"><a href="approaches-for-bayesian-variable-selection-ssvs.html"><i class="fa fa-check"></i><b>2</b> Approaches for Bayesian Variable Selection (SSVS)</a><ul>
+<li class="chapter" data-level="2.1" data-path="approaches-for-bayesian-variable-selection-ssvs.html"><a href="approaches-for-bayesian-variable-selection-ssvs.html#rcode"><i class="fa fa-check"></i><b>2.1</b> Rcode</a></li>
+<li class="chapter" data-level="2.2" data-path="approaches-for-bayesian-variable-selection-ssvs.html"><a href="approaches-for-bayesian-variable-selection-ssvs.html#appendix"><i class="fa fa-check"></i><b>2.2</b> Appendix</a></li>
+</ul></li>
 <li class="chapter" data-level="" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i>References</a></li>
 <li class="divider"></li>
 <li><a href="https://www.sjin.name" target="blank">Caleb Jin|金时强</a></li>
@@ -147,7 +148,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
       <div class="body-inner">
         <div class="book-header" role="navigation">
           <h1>
-            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Stochastic Search Variable Selection (SSVS)</a>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Approaches for Bayesian Variable Selection (SSVS)</a>
           </h1>
         </div>
 
@@ -155,8 +156,78 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="rcode" class="section level1">
-<h1><span class="header-section-number">3</span> Rcode</h1>
+<div id="approaches-for-bayesian-variable-selection-ssvs" class="section level1">
+<h1><span class="header-section-number">2</span> Approaches for Bayesian Variable Selection (SSVS)</h1>
+<p>Consider a high dimensional linear regression model as follows:
+<span class="math display" id="eq:1">\[\begin{eqnarray}
+{\bf y}={\bf X}{\boldsymbol \beta}+ {\boldsymbol \epsilon}
+\tag{2.1}
+\end{eqnarray}\]</span>
+where <span class="math inline">\({\bf y}=(y_1,y_2,\ldots,y_{n})^{{\top}}\)</span> is the <span class="math inline">\(n\)</span>-dimensional response vector, <span class="math inline">\({\bf X}=[1,{\bf M}]=[{\bf x}_1,\ldots,{\bf x}_{p}]\)</span> is the <span class="math inline">\(n\times p\)</span> design
+matrix, and <span class="math inline">\({\boldsymbol \epsilon}\sim \mathcal{N}_{n}({\bf 0},\sigma^2{\bf I}_{n})\)</span>. Note that as <span class="math inline">\(p&gt;n\)</span>, <span class="math inline">\({\bf X}\)</span> is not full rank.</p>
+<p>From <a href="approaches-for-bayesian-variable-selection-ssvs.html#eq:1">(2.1)</a>, the likelihood function is given as
+<span class="math display">\[
+{\bf y}|{\boldsymbol \beta}, \sigma^2 \sim \mathcal{N}({\bf X}{\boldsymbol \beta}, \sigma^2I_n).
+\]</span>
+We define the prior as follows:
+<span class="math display">\[
+\beta_j|\sigma^2,\gamma_j \stackrel{ind}{\sim} (1-\gamma_j) \mathcal{N}(0, \sigma^2\nu_0) + \gamma_j\mathcal{N}(0,\sigma^2\nu_1),
+\]</span>
+where <span class="math inline">\(\nu_0\)</span> and <span class="math inline">\(\nu_1\)</span> will be chosen to be small and large, respectively. Note that the likelihood is independent of <span class="math inline">\({\boldsymbol \gamma}=(\gamma_1,\ldots,\gamma_p)\)</span>.
+Assume
+<span class="math display">\[
+\sigma^2 \sim \mathcal{IG}(\frac{a}{2}, \frac{b}{2}),
+\]</span>
+which is also independent of <span class="math inline">\({\boldsymbol \gamma}\)</span>. We consider
+<span class="math display">\[
+\gamma_j \stackrel{iid}{\sim} Ber(\omega).
+\]</span></p>
+<p>To make our model robust to the choice of <span class="math inline">\(\omega\)</span>, we will assign the following prior on <span class="math inline">\(\omega\)</span>.
+<span class="math display">\[w\sim \mathcal{B}(c_1,c_2),\]</span>
+where we will use <span class="math inline">\(c_1=c_2=1\)</span>, which leads to the uniform distribution. Recall the density function of beta distribution is proportional <span class="math inline">\(\pi(w)\propto w^{c_1-1}(1-w)^{c_2-1}\)</span>.</p>
+<p>It is easy to show that the <strong>full conditionals</strong> are as follows:</p>
+<ul>
+<li><ol style="list-style-type: decimal">
+<li><span class="math display">\[\beta_j|{\boldsymbol \beta}_{-j}, \sigma^2, {\boldsymbol \gamma}, {\bf y}\sim \mathcal{N}(\tilde{\beta}_j, \frac{\sigma^2}{\mu_j}).\]</span>
+where <span class="math inline">\(\mu_j= x_j^{{\top}}x_j + \frac{1}{\nu_{\gamma_j}}\)</span> and <span class="math inline">\(\tilde{\beta}_j = \mu_j^{-1}x_j^{{\top}}({\bf y}- {\bf X}_{-j}{\boldsymbol \beta}_{-j})\)</span>.</li>
+</ol></li>
+<li><ol start="2" style="list-style-type: decimal">
+<li><span class="math display">\[
+\gamma_j |{\boldsymbol \gamma}_{-j}, {\boldsymbol \beta}, \sigma^2, {\bf y}\sim Ber\left(\frac{ \nu_1^{-\frac{1}{2}}
+\exp\left(-\frac{1}{2\sigma^2\nu_1}\beta_j^2\right)\omega}
+{  \nu_0^{-\frac{1}{2}}\exp\left(-\frac{1}{2\sigma^2\nu_0}\beta_j^2\right)\left(1-\omega\right)+
+ \nu_1^{-\frac{1}{2}}\exp\left(-\frac{1}{2\sigma^2\nu_1}\beta_j^2\right)\omega}\right).
+\]</span></li>
+</ol></li>
+<li><ol start="3" style="list-style-type: decimal">
+<li><span class="math display">\[\sigma^2|{\boldsymbol \beta}, {\boldsymbol \gamma}, {\bf y}\sim \mathcal{IG}(a^*,b^*),\]</span>
+where <span class="math inline">\(a^*=\frac{1}{2}(n+p+a)\)</span> and <span class="math inline">\(b^* = \frac{1}{2}\left(\|{\bf y}-{\bf X}{\boldsymbol \beta}\|^2 + \sum_{j=1}^{p}\frac{\beta_j^2}{\nu_{\gamma_j}} + b\right).\)</span></li>
+</ol></li>
+<li><ol start="4" style="list-style-type: decimal">
+<li><span class="math display">\[w|{\boldsymbol \beta},{\boldsymbol \gamma},\sigma^2,{\bf y}\sim \mathcal{B}\left(\sum_{j=1}^p \gamma_j+c_1,p-\sum_{j=1}^p \gamma_j+c_2\right).\]</span></li>
+</ol></li>
+</ul>
+<p>To speed up, we consider the following conditionals:</p>
+<ul>
+<li><p>1’)
+<span class="math display">\[{\boldsymbol \beta}|\sigma^2, {\boldsymbol \gamma}, {\bf y}\sim \mathcal{N}(\tilde{{\boldsymbol \beta}}, {\sigma^2}({\bf X}^{\top}{\bf X}+{\bf V}^{-1}_{\boldsymbol \gamma})^{-1}),\]</span>
+where <span class="math inline">\({\bf V}_{\boldsymbol \gamma}={\rm diag}(v_{\gamma_j})_{j=0}^p\)</span> and <span class="math inline">\(\tilde{{\boldsymbol \beta}} = ({\bf X}^{\top}{\bf X}+{\bf V}^{-1}_{\boldsymbol \gamma})^{-1}{\bf X}^{\top}{\bf y}\)</span>.</p></li>
+<li><p>2’)
+<span class="math display">\[
+{\boldsymbol \gamma}|{\boldsymbol \beta}, \sigma^2, {\bf y}\sim \prod_{j=0}^p Ber\left(\frac{ \nu_1^{-\frac{1}{2}}
+  \exp\left(-\frac{1}{2\sigma^2\nu_1}\beta_j^2\right)\omega}
+{  \nu_0^{-\frac{1}{2}}\exp\left(-\frac{1}{2\sigma^2\nu_0}\beta_j^2\right)\left(1-\omega\right)+
+ \nu_1^{-\frac{1}{2}}\exp\left(-\frac{1}{2\sigma^2\nu_1}\beta_j^2\right)\omega}\right).
+\]</span></p></li>
+<li><p>3’)
+<span class="math display">\[\sigma^2|{\boldsymbol \beta}, {\boldsymbol \gamma}, {\bf y}\sim \mathcal{IG}(a^*,b^*).\]</span>
+where <span class="math inline">\(a^*=\frac{1}{2}(n+p+a)\)</span> and
+<span class="math inline">\(b^* = \frac{1}{2}\left(\|{\bf y}-{\bf X}{\boldsymbol \beta}\|^2 + \sum_{j=1}^{p}\frac{\beta_j^2}{\nu_{\gamma_j}} + b\right).\)</span></p></li>
+<li><p>4’)
+<span class="math display">\[w|{\boldsymbol \beta},{\boldsymbol \gamma},\sigma^2,{\bf y}\sim \mathcal{B}\left(\sum_{j=1}^p \gamma_j+c_1,p-\sum_{j=1}^p \gamma_j+c_2\right).\]</span></p></li>
+</ul>
+<div id="rcode" class="section level2">
+<h2><span class="header-section-number">2.1</span> Rcode</h2>
 <div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" title="1"><span class="kw">library</span>(invgamma)</a>
 <a class="sourceLine" id="cb1-2" title="2">p &lt;-<span class="st"> </span><span class="dv">100</span></a>
 <a class="sourceLine" id="cb1-3" title="3">n =<span class="st"> </span><span class="dv">100</span></a>
@@ -210,13 +281,108 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <a class="sourceLine" id="cb1-51" title="51">}</a>
 <a class="sourceLine" id="cb1-52" title="52"><span class="kw">colMeans</span>(hat.Gamma)<span class="op">&gt;</span><span class="fl">0.5</span></a></code></pre></div>
 </div>
+<div id="appendix" class="section level2">
+<h2><span class="header-section-number">2.2</span> Appendix</h2>
+<ul>
+<li>For <span class="math inline">\(\beta_j|{\boldsymbol \beta}_{-j}, \sigma^2, {\boldsymbol \gamma}, {\bf y}\)</span> <span class="math inline">\((j = 1,2, \ldots,p)\)</span>, we have</li>
+</ul>
+<p><span class="math display">\[\begin{eqnarray*}
+\pi(\beta_j|{\boldsymbol \beta}_{-j}, \sigma^2, {\boldsymbol \gamma}, {\bf y})&amp;\propto&amp;f({\bf y}|{\boldsymbol \beta}, \sigma^2)\pi({\boldsymbol \beta}|{\boldsymbol \gamma}, \sigma^2)\\
+&amp;=&amp;f({\bf y}|{\boldsymbol \beta}_{{\boldsymbol \gamma}}, \sigma^2) \prod_{k=1}^{p}\pi(\beta_k|Z_k, \sigma^2)\\
+&amp;\propto&amp;f({\bf y}|{\boldsymbol \beta}, \sigma^2)\pi(\beta_j|\gamma_j, \sigma^2)\\
+&amp;\propto&amp; \exp\left(-\frac{1}{2\sigma^2}\|{\bf y}-{\bf X}{\boldsymbol \beta}\|^2 \right)
+\exp\left(-\frac{1}{2\sigma^2\nu_{\gamma_j}}\beta_j^2\right)\\
+&amp;=&amp; \exp\left(-\frac{1}{2\sigma^2}\|{\bf y}- {\bf X}_{-j}{\boldsymbol \beta}_{-j} - x_j \beta_j\|^2\right)
+\exp\left(-\frac{1}{2\sigma^2\nu_{\gamma_j}}\beta_j^2\right)\\
+&amp;=&amp; \exp\left(-\frac{1}{2\sigma^2}\|{\bf y}^* - x_j \beta_j\|^2\right)
+\exp\left(-\frac{1}{2\sigma^2\nu_{\gamma_j}}\beta_j^2\right)\\
+&amp;=&amp;\exp\left[-\frac{1}{2\sigma^2}\left({{\bf y}^*}^{{\top}}{\bf y}^* - 2\beta_j x_j^{{\top}}{\bf y}^*
++ \beta_j x_j^{{\top}}x_j\beta_j + \frac{1}{\nu_{\gamma_j}}\beta_j^2\right)\right]\\
+&amp;\propto&amp;\exp\left[-\frac{1}{2\sigma^2}\left(\beta_j^2(x_j^{{\top}}x_j +
+\frac{1}{\nu_{\gamma_j}}) - 2\beta_j x_j^{{\top}}{\bf y}^* \right)\right]\\
+&amp;=&amp;\exp\left[-\frac{1}{2\sigma^2}\left(\beta_j^2(x_j^{{\top}}x_j +
+\frac{1}{\nu_{\gamma_j}}) - 2\beta_j (x_j^{{\top}}x_j + \frac{1}{\nu_{\gamma_j}})(x_j^{{\top}}x_j +
+\frac{1}{\nu_{\gamma_j}})^{-1} x_j^{{\top}}{\bf y}^* \right)\right]\\
+&amp;=&amp; \exp\left[-\frac{a}{2\sigma^2}\left(\beta_j^2 - 2a \beta_j \tilde \beta_j\right)\right]\\
+&amp;\propto&amp; \exp\left[-\frac{a}{2\sigma^2}\left(\beta_j -\tilde \beta_j\right)^2\right]\\
+\end{eqnarray*}\]</span></p>
+<p>where <span class="math inline">\({\bf y}^* = {\bf y}- {\bf X}_{-j}{\boldsymbol \beta}_{-j}, \quad \mu_j= x_j^{{\top}}x_j + \frac{1}{\nu_{\gamma_j}},\quad \tilde \beta_j = \mu_j^{-1}x_j^{{\top}}{\bf y}^*\)</span>.
+Hence, <span class="math display">\[\beta_j|{\boldsymbol \beta}_{-j}, \sigma^2, {\boldsymbol \gamma}, {\bf y}\sim \mathcal{N}(\tilde \beta_j, \frac{\sigma^2}{\mu_j}).\]</span></p>
+<ul>
+<li>For <span class="math inline">\(\pi(\gamma_j|{\boldsymbol \gamma}_{-j}, {\boldsymbol \beta}, \sigma^2, {\bf y})\)</span> <span class="math inline">\((j = 1,2, \ldots,p)\)</span> we have</li>
+</ul>
+<p><span class="math display">\[\begin{eqnarray*}
+\pi(\gamma_j|{\boldsymbol \gamma}_{-j}, {\boldsymbol \beta}, \sigma^2, {\bf y})&amp;\propto&amp; \pi({\boldsymbol \gamma},{\boldsymbol \beta}|\sigma^2)\\
+&amp;=&amp;\pi({\boldsymbol \beta}|\sigma^2, {\boldsymbol \gamma})\pi({\boldsymbol \gamma})\\
+&amp;=&amp; \prod_{k=1}^{p}\pi(\beta_{k}|\sigma^2, z_{k})\prod_{i=1}^{p}\pi(z_i)\\
+&amp;\propto&amp;\pi(\beta_{j}|\sigma^2, z_{j})\pi(\gamma_j)\\
+&amp;\propto&amp;\nu_{\gamma_j}^{-\frac{1}{2}}\exp\left(-\frac{1}{2\sigma^2\nu_{\gamma_j}}\beta_j^2\right)\omega^{\gamma_j}
+(1-\omega)^{1-\gamma_j}.
+\end{eqnarray*}\]</span></p>
+<p>Note that</p>
+<p><span class="math display">\[\begin{eqnarray*}
+\pi(\gamma_j = 0|{\boldsymbol \gamma}_{-j}, {\boldsymbol \beta}, \sigma^2, {\bf y})&amp;=&amp; C \nu_0^{-\frac{1}{2}}\exp\left(-\frac{1}{2\sigma^2\nu_0}\beta_j^2\right)\left(1-\omega\right);\\
+\pi(\gamma_j = 1|{\boldsymbol \gamma}_{-j}, {\boldsymbol \beta}, \sigma^2, {\bf y})&amp;=&amp; C \nu_1^{-\frac{1}{2}}\exp\left(-\frac{1}{2\sigma^2\nu_1}\beta_j^2\right)\omega.
+\end{eqnarray*}\]</span></p>
+<p>This implies that</p>
+<p><span class="math display">\[\begin{eqnarray*}
+\pi(\gamma_j = 1|{\boldsymbol \gamma}_{-j}, {\boldsymbol \beta}, \sigma^2, {\bf y})
+&amp;=&amp;\frac{P(\gamma_j = 1,\Omega)}{\sum_{\gamma_j}P(\gamma_j,\Omega)}\\
+&amp;=&amp; \frac{C \nu_1^{-\frac{1}{2}}\exp\left(-\frac{1}{2\sigma^2\nu_1}\beta_j^2\right)\omega}
+{ C \nu_0^{-\frac{1}{2}}\exp\left(-\frac{1}{2\sigma^2\nu_0}\beta_j^2\right)\left(1-\omega\right)+
+C \nu_1^{-\frac{1}{2}}\exp\left(-\frac{1}{2\sigma^2\nu_1}\beta_j^2\right)\omega}\\
+&amp;=&amp; \frac{ \nu_1^{-\frac{1}{2}}\exp\left(-\frac{1}{2\sigma^2\nu_1}\beta_j^2\right)\omega}
+{  \nu_0^{-\frac{1}{2}}\exp\left(-\frac{1}{2\sigma^2\nu_0}\beta_j^2\right)\left(1-\omega\right)+
+ \nu_1^{-\frac{1}{2}}\exp\left(-\frac{1}{2\sigma^2\nu_1}\beta_j^2\right)\omega}.
+\end{eqnarray*}\]</span></p>
+<p>Hence,
+<span class="math display">\[
+\gamma_j |{\boldsymbol \gamma}_{-j}, {\boldsymbol \beta}, \sigma^2, {\bf y}\sim Ber\left(\frac{ \nu_1^{-\frac{1}{2}}
+    \exp\left(-\frac{1}{2\sigma^2\nu_1}\beta_j^2\right)\omega}
+{  \nu_0^{-\frac{1}{2}}\exp\left(-\frac{1}{2\sigma^2\nu_0}\beta_j^2\right)\left(1-\omega\right)+
+ \nu_1^{-\frac{1}{2}}\exp\left(-\frac{1}{2\sigma^2\nu_1}\beta_j^2\right)\omega}\right).
+\]</span></p>
+<ul>
+<li>For <span class="math inline">\(\sigma^2|{\boldsymbol \beta}, {\boldsymbol \gamma}, {\bf y}\)</span>, we have</li>
+</ul>
+<p><span class="math display">\[\begin{eqnarray*}
+\pi(\sigma^2|{\boldsymbol \beta}, {\boldsymbol \gamma}, {\bf y})&amp;\propto&amp;f({\bf y}|{\boldsymbol \beta},\sigma^2,{\boldsymbol \gamma})\pi({\boldsymbol \beta},\sigma^2|{\boldsymbol \gamma})\\
+&amp;=&amp;f({\bf y}|{\boldsymbol \beta}, \sigma^2, {\boldsymbol \gamma})\pi({\boldsymbol \beta}|\sigma^2,{\boldsymbol \gamma})\pi(\sigma^2|{\boldsymbol \gamma})\\
+&amp;=&amp;f({\bf y}|{\boldsymbol \beta}, \sigma^2)\pi({\boldsymbol \beta}|\sigma^2,{\boldsymbol \gamma})\pi(\sigma^2)\\
+&amp;\propto&amp;(\sigma^2)^{-\frac{n}{2}}\exp\left(-\frac{1}{2\sigma^2}\|{\bf y}-{\bf X}{\boldsymbol \beta}\|^2\right)\times
+\prod_{j=1}^{p}\left[(\sigma^2\nu_{\gamma_j})^{-\frac{1}{2}}\exp\left(-\frac{1}{2\sigma^2\nu_{\gamma_j}}
+\beta_j^2\right)\right]\\
+&amp;&amp;\times(\sigma^2)^{-\frac{a}{2}-1}\exp\left(-\frac{b}{2\sigma^2}\right)\\
+&amp;\propto&amp;(\sigma^2)^{-\frac{n}{2}}\exp\left(-\frac{1}{2\sigma^2}\|{\bf y}-{\bf X}{\boldsymbol \beta}\|^2\right)\times
+(\sigma^2)^{-\frac{p}{2}}\exp\left(-\frac{1}{2\sigma^2}\sum_{j=1}^{p}\frac{\beta_j^2}{\nu_{\gamma_j}}\right)\\
+&amp;&amp;\times(\sigma^2)^{-\frac{a}{2}-1}\exp\left(-\frac{b}{2\sigma^2}\right)\\
+&amp;=&amp; (\sigma^2)^{-\frac{1}{2}(n+p+a)-1}\exp\left(-\frac{\frac{1}{2}\left(\|{\bf y}-{\bf X}{\boldsymbol \beta}
+\|^2 + \sum_{j=1}^{p}\frac{\beta_j^2}{\nu_{\gamma_j}} + b\right)}{\sigma^2}\right)\\
+&amp;=&amp;(\sigma^2)^{-a^* -1}\exp(-\frac{b^*}{\sigma^2}),
+\end{eqnarray*}\]</span></p>
+<p>where <span class="math inline">\(a^*=\frac{1}{2}(n+p+a)\)</span> and <span class="math inline">\(b^* = \frac{1}{2}\left(\|{\bf y}-{\bf X}{\boldsymbol \beta}\|^2 + \sum_{j=1}^{p}\frac{\beta_j^2}{\nu_{\gamma_j}} + b\right).\)</span></p>
+<p>Therefore,
+<span class="math display">\[\sigma^2|{\boldsymbol \beta}, {\boldsymbol \gamma}, {\bf y}\sim \mathcal{IG}(a^*,b^*).\]</span></p>
+<ul>
+<li>For <span class="math inline">\(w|{\boldsymbol \beta},{\boldsymbol \gamma},\sigma^2,{\bf y}\)</span>, we have</li>
+</ul>
+<p><span class="math display">\[\begin{eqnarray*}
+\pi(w|{\boldsymbol \beta},{\boldsymbol \gamma},\sigma^2,{\bf y})&amp;\propto&amp; \pi({\boldsymbol \gamma}|w) \pi(w)\\
+&amp;\propto&amp;\left[ \prod_{j=1}^p w^{\gamma_j}(1-w)^{1-\gamma_j}\right] w^{c_1-1}(1-w)^{c_2-1}\\
+&amp;\propto&amp; w^{\sum_{j=1}^p \gamma_j+c_1-1}(1-w)^{p-\sum_{j=1}^p \gamma_j+c_2-1}.
+\end{eqnarray*}\]</span></p>
+<p>We therefore have
+<span class="math display">\[w|{\boldsymbol \beta},{\boldsymbol \gamma},\sigma^2,{\bf y}\sim \mathcal{B}\left(\sum_{j=1}^p \gamma_j+c_1,p-\sum_{j=1}^p \gamma_j+c_2\right).\]</span></p>
+
+</div>
+</div>
             </section>
 
           </div>
         </div>
       </div>
-<a href="stochastic-search-variable-selection-ssvs.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
-<a href="appendix.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+<a href="index.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="references.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>

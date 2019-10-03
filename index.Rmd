@@ -1,5 +1,5 @@
 ---
-title: "Stochastic Search Variable Selection (SSVS)"
+title: "Approaches for Bayesian Variable Selection (SSVS)"
 author: "Shiqiang Jin"
 date: "4-17-2017"
 site: bookdown::bookdown_site
@@ -9,7 +9,6 @@ biblio-style: apalike
 link-citations: yes
 description: ""
 ---
-# Motivation
+# Foreword
 
-
-I am [Caleb Jin](https://www.sjin.name/). This is my note of the paper **Stochastic Search Variable Selection (SSVS)**[@George1997] and [@George1993]. 
+I am [Caleb Jin](https://www.sjin.name/).  After I read this paper, **Approaches for Bayesian Variable Selection (SSVS)**[@George1997] and [@George1993], I write down the nodes of the key idea and R code to realize it.

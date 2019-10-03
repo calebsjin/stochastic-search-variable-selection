@@ -33,7 +33,7 @@ html_document: newcommandault
 \newcommand\uV{{\bf V}}
 \newcommand\diag{{\rm diag}}
 
-# Stochastic Search Variable Selection (SSVS)
+# Approaches for Bayesian Variable Selection (SSVS)
 
 Consider a high dimensional linear regression model as follows:
 \begin{eqnarray}
@@ -109,7 +109,7 @@ $b^* = \frac{1}{2}\left(\|\uy-\uX\ubeta\|^2 + \sum_{j=1}^{p}\frac{\beta_j^2}{\nu
 - 4')
 $$w|\ubeta,\bg,\sigma^2,\uy\sim \mathcal{B}\left(\sum_{j=1}^p \gamma_j+c_1,p-\sum_{j=1}^p \gamma_j+c_2\right).$$
 
-# Rcode
+## Rcode
 
 ```{r, eval = F}
 library(invgamma)
@@ -167,7 +167,7 @@ colMeans(hat.Gamma)>0.5
 ```
 
 
-# Appendix
+## Appendix
 
 - For $\beta_j|\ubeta_{-j}, \sigma^2, \bg, \uy$ $(j = 1,2, \ldots,p)$, we have
 
